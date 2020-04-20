@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title AC Custom Designs
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body
+    - if signed_in?
+      p = link_to 'Home', root_path
+      p = link_to current_user.email, edit_creator_path
+      p = link_to 'Sign out', sign_out_path, method: :delete
+    - else
+      = link_to 'Sign in', sign_in_path
+
+    = yield

@@ -1,0 +1,13 @@
+h2
+  = t(".title")
+= form_for @creator, url: update_creator_path, method: :put  do |f|
+  .text-field
+    = f.label :name
+    = f.text_field :name
+
+  .text-field
+    = f.label :creator_id
+    = f.text_field :creator_id
+
+  .submit-field
+    = f.submit
