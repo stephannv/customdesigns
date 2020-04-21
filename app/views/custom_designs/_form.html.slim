@@ -1,0 +1,12 @@
+= form_for custom_design do |f|
+  .text-field
+    = f.label :name
+    = f.text_field :name
+
+  .text-field
+    = f.label :design_id
+    = f.text_field :design_id
+
+  .submit
+    = link_to 'Back', custom_designs_path
+    = f.submit

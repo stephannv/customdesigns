@@ -12,7 +12,9 @@ html
       p = link_to 'Home', root_path
       p = link_to current_user.email, edit_creator_path
       p = link_to 'Sign out', sign_out_path, method: :delete
+      p = link_to 'My Custom Designs', custom_designs_path
     - else
       = link_to 'Sign in', sign_in_path
 
-    = yield
+    .content
+      = yield

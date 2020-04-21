@@ -1,0 +1,16 @@
+h2 = t('.title')
+
+p
+  = link_to 'Add custom design', new_custom_design_path
+
+table
+  thead
+    th = t('.name')
+    th = t('.design_id')
+  tbody
+    - @custom_designs.each do |custom_design|
+      tr
+        td = custom_design.name
+        td = custom_design.design_id
+        td = link_to 'Edit', edit_custom_design_path(custom_design)
+        td = link_to 'Destroy', custom_design_path(custom_design), method: :delete, data: { confirm: 'Are you sure?' }
