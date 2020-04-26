@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
 
+  add_flash_types :success, :info, :error, :warning
+
   def current_creator
     current_user.creator
   end

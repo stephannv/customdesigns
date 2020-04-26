@@ -28,12 +28,22 @@ ActiveRecord::Schema.define(version: 2020_04_20_212116) do
 
   create_table "custom_designs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "creator_id", null: false
+    t.uuid "main_picture_id", null: false
+    t.uuid "example_picture_id"
     t.string "name", null: false
     t.string "design_id", limit: 17, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_custom_designs_on_creator_id"
     t.index ["design_id"], name: "index_custom_designs_on_design_id", unique: true
+    t.index ["example_picture_id"], name: "index_custom_designs_on_example_picture_id"
+    t.index ["main_picture_id"], name: "index_custom_designs_on_main_picture_id"
+  end
+
+  create_table "pictures", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -49,4 +59,6 @@ ActiveRecord::Schema.define(version: 2020_04_20_212116) do
 
   add_foreign_key "creators", "users"
   add_foreign_key "custom_designs", "creators"
+  add_foreign_key "custom_designs", "pictures", column: "example_picture_id"
+  add_foreign_key "custom_designs", "pictures", column: "main_picture_id"
 end

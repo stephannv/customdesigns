@@ -9,7 +9,7 @@ class CreatorsController < ApplicationController
     @creator = current_user.creator
 
     if @creator.update(creator_params)
-      redirect_to root_path
+      redirect_to root_path, success: 'Profile updated with success'
     else
       render 'edit'
     end

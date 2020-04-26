@@ -1,7 +1,20 @@
-.text-field
-  = form.label :email
-  = form.text_field :email, type: 'email'
+= form_for user do |f|
+  .field
+    = f.label :email, class: 'label'
+    .control
+      = f.text_field :email, type: 'email', class: 'input'
+      = errors_for(user, :email)
 
-.password-field
-  = form.label :password
-  = form.password_field :password
+  .field
+    = f.label :password, class: 'label'
+    .control
+      = f.password_field :password, class: 'input'
+      = errors_for(user, :password)
+
+  .field
+    .control
+      = f.submit class: 'button is-fullwidth is-dark'
+
+  .field
+    .control
+      = link_to t(".sign_in"), sign_in_path, class: 'button is-fullwidth is-text'

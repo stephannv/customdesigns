@@ -1,4 +1,62 @@
-h2 = t('.title')
+.columns.is-centered
+  .column.is-8
+    .box
+      .columns.is-centered
+        .column.is-3
+          = image_tag @custom_design.main_picture.image(:thumbnail).url, class: 'image is-1-by1'
 
-h4 = @custom_design.name
-h6 = @custom_design.design_id
+        .column.is-9
+          .title.is-size-4-mobile
+            = @custom_design.name
+            .subtitle.is-marginless = @custom_design.design_id
+            - if @custom_design.creator.name.present?
+              .subtitle
+                | by
+                =< @custom_design.creator.name
+                - if @custom_design.creator.creator_id.present?
+                  =< '(' + @custom_design.creator.creator_id + ')'
+
+          .tags
+            span.tag.is-dark.has-text-weight-semibold Floor
+            span.tag.is-dark.has-text-weight-semibold Floor
+            span.tag.is-dark.has-text-weight-semibold Floor
+            span.tag.is-dark.has-text-weight-semibold Floor
+
+            span.tag.is-light Sports
+            span.tag.is-light Sports
+            span.tag.is-light Sports
+          nav.level.is-mobile
+            .level-left
+
+            .level-right
+              = link_to edit_custom_design_path(@custom_design), title: 'Edit', class: 'level-item has-text-dark' do
+                span.icon
+                  i.fas.fa-edit
+                | Edit
+
+              = link_to custom_design_path(@custom_design),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                title: 'Destroy',
+                class: 'has-text-danger level-item' do
+                span.icon
+                  i.fas.fa-trash
+                | Destroy
+
+              a.level-item.has-text-primary
+                span.icon
+                  i.far.fa-heart
+                span.has-text-black 1220
+
+              a.level-item.has-text-warning
+                span.icon
+                  i.far.fa-bookmark
+                span.has-text-black 520
+
+
+
+      - if @custom_design.example_picture.present?
+        .column
+          .subtitle Example:
+          figure.image.is-16by9
+            = image_tag @custom_design.example_picture.image_url, class: 'image is-16-by9'

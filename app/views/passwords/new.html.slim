@@ -1,12 +1,17 @@
-#clearance.password-reset
-  h2
-    = t(".title")
-  p
-    = t(".description")
+.columns.is-centered
+  .column.is-6
+    .box
+      .title.is-size-4 Reset your password
 
-  = form_for :password, url: passwords_path do |form|
-    .text-field
-      = form.label :email
-      = form.text_field :email, type: 'email'
-    .submit-field
-      = form.submit
+      .subtitle = t(".description")
+
+      = form_for :password, url: passwords_path do |f|
+        .field
+          = f.label :email, class: 'label'
+          .control
+            = f.text_field :email, type: :email, class: 'input'
+
+        .field
+          .control
+            = f.submit class: 'button is-fullwidth is-dark'
+

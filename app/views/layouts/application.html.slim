@@ -1,20 +1,21 @@
 doctype html
-html
+html.has-navbar-fixed-top
   head
     title AC Custom Designs
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_pack_tag 'application'
 
   body
-    - if signed_in?
-      p = link_to 'Home', root_path
-      p = link_to current_user.email, edit_creator_path
-      p = link_to 'Sign out', sign_out_path, method: :delete
-      p = link_to 'My Custom Designs', custom_designs_path
-    - else
-      = link_to 'Sign in', sign_in_path
+    = render 'layouts/navbar'
+    .section.is-marginless
+      .container
+        = flash_message
+        = yield
 
-    .content
-      = yield
+  = yield :scripts
+

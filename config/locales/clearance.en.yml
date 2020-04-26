@@ -55,10 +55,11 @@ en:
   sessions:
     form:
       forgot_password: Forgot password?
-      sign_up: Sign up
+      sign_up: No account? Create one!
     new:
       title: Sign in
   users:
     new:
-      sign_in: Sign in
       title: Sign up
+    form:
+      sign_in: Already have an account? Log in

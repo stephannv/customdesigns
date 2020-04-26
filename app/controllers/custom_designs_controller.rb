@@ -2,7 +2,7 @@ class CustomDesignsController < ApplicationController
   before_action :require_login, only: %i[index new create edit update destroy]
 
   def index
-    @custom_designs = current_creator.custom_designs
+    @custom_designs = current_creator.custom_designs.order(created_at: :desc)
   end
 
   def show
@@ -11,6 +11,8 @@ class CustomDesignsController < ApplicationController
 
   def new
     @custom_design = current_creator.custom_designs.new
+    @custom_design.build_main_picture
+    @custom_design.build_example_picture
   end
 
   def create
@@ -19,12 +21,14 @@ class CustomDesignsController < ApplicationController
     if @custom_design.save
       redirect_to @custom_design, success: 'Custom design created with success'
     else
+      @custom_design.build_example_picture if @custom_design.example_picture.blank?
       render 'new'
     end
   end
 
   def edit
     @custom_design = current_creator.custom_designs.find(params[:id])
+    @custom_design.build_example_picture if @custom_design.example_picture.blank?
   end
 
   def update
@@ -52,13 +56,12 @@ class CustomDesignsController < ApplicationController
   private
 
   def custom_design_params
-    params.require(:custom_design).permit(:name, :design_id)
+    params.require(:custom_design).permit(
+      :name,
+      :design_id,
+      main_picture_attributes: %i[id image],
+      example_picture_attributes: %i[id image]
+    )
   end
 end
 
-# Floor
-# Stall
-# Clothes
-# Headpiece
-# Bed
-# Art

@@ -1,13 +1,24 @@
-h2
-  = t(".title")
-= form_for @creator, url: update_creator_path, method: :put  do |f|
-  .text-field
-    = f.label :name
-    = f.text_field :name
+.columns.is-centered
+  .column.is-6
+    .box
+      .title My Profile
 
-  .text-field
-    = f.label :creator_id
-    = f.text_field :creator_id
+      = form_for @creator, url: update_creator_path, method: :put  do |f|
+        .field
+          = f.label :name, class: 'label'
+          .control
+            = f.text_field :name, class: 'input'
+            = errors_for(@creator, :name)
 
-  .submit-field
-    = f.submit
+        .field
+          = f.label :creator_id, class: 'label'
+          .control
+            = f.text_field :creator_id, class: 'input'
+            = errors_for(@creator, :creator_id)
+
+        .field
+          .control
+            = f.submit class: 'button is-fullwidth is-dark'
+
+- content_for :scripts
+  = javascript_pack_tag 'creators/form'

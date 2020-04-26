@@ -1,16 +1,18 @@
-h2 = t('.title')
+.columns.is-centered
+  .column.is-12
+    .title My Custom Designs
 
-p
-  = link_to 'Add custom design', new_custom_design_path
+.columns
+  - @custom_designs.each do |custom_design|
+    .column.is-3
+      = render 'custom_design_card', custom_design: custom_design
 
-table
-  thead
-    th = t('.name')
-    th = t('.design_id')
-  tbody
-    - @custom_designs.each do |custom_design|
-      tr
-        td = custom_design.name
-        td = custom_design.design_id
-        td = link_to 'Edit', edit_custom_design_path(custom_design)
-        td = link_to 'Destroy', custom_design_path(custom_design), method: :delete, data: { confirm: 'Are you sure?' }
+  - if @custom_designs.empty?
+    .column.is-12
+      .box.has-text-centered
+        br
+        .subtitle
+          | You don't have any custom designs published yet. Create one
+          =< link_to 'here', new_custom_design_path
+          | .
+        p

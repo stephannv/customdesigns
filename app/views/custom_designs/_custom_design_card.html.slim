@@ -1,0 +1,60 @@
+.card
+  .card-image
+    = link_to custom_design_path(custom_design) do
+      figure.image.is-1-by1.custom-design-card-image
+        = image_tag custom_design.main_picture.image(:thumbnail).url, alt: custom_design.name
+
+  .card-content
+    .media
+      .media-content
+        = link_to custom_design_path(custom_design) do
+          p.title.is-4 = custom_design.name
+          p.subtitle.is-6 = custom_design.design_id
+        - if custom_design.creator.present?
+
+          = link_to root_path do
+            p.has-text-black.is-4 = custom_design.creator.name
+
+    .content
+      .tags
+        span.tag.is-dark.has-text-weight-semibold Floor
+        span.tag.is-dark.has-text-weight-semibold Floor
+        span.tag.is-dark.has-text-weight-semibold Floor
+        span.tag.is-dark.has-text-weight-semibold Floor
+
+        span.tag.is-light Sports
+        span.tag.is-light Sports
+        span.tag.is-light Sports
+        span.tag.is-light Sports
+        span.tag.is-light Sports
+        span.tag.is-light Sports
+        span.tag.is-light Sports
+
+  .card-footer
+    p.card-footer-item.has-text-centered
+      = link_to edit_custom_design_path(custom_design), class: 'has-text-primary' do
+        span.icon.is-small.is-fw
+          i.far.fa-heart
+        span.has-text-black 1220
+
+    p.card-footer-item.has-text-centered
+      = link_to edit_custom_design_path(custom_design), class: 'has-text-warning' do
+        span.icon.is-small
+          i.fas.fa-bookmark
+        span.has-text-black 520
+
+  .card-footer
+    p.card-footer-item.has-text-centered
+      = link_to edit_custom_design_path(custom_design), title: 'Edit', class: 'has-text-dark' do
+        span.icon.is-small
+          i.fas.fa-edit
+        | Edit
+    p.card-footer-item.has-text-centered
+      = link_to custom_design_path(custom_design),
+        method: :delete,
+        data: { confirm: 'Are you sure?' },
+        title: 'Destroy',
+        class: 'has-text-danger has-text-centered' do
+        span.icon.is-small
+          i.fas.fa-trash
+        | Destroy

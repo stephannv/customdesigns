@@ -1,12 +1,64 @@
 = form_for custom_design do |f|
-  .text-field
-    = f.label :name
-    = f.text_field :name
+  .field
+    = f.label :name, class: 'label'
+    .control
+      = f.text_field :name, class: 'input'
+      = errors_for(custom_design, :name)
 
-  .text-field
-    = f.label :design_id
-    = f.text_field :design_id
+  .field
+    = f.label :design_id,  'Design ID', class: 'label'
+    .control
+      = f.text_field :design_id, class: 'input'
+      = errors_for(custom_design, :design_id)
 
-  .submit
-    = link_to 'Back', custom_designs_path
-    = f.submit
+  = f.fields_for :main_picture do |main_picture_form|
+    .field
+      .control
+        .label
+          | Custom Design Screenshot
+          span.has-text-weight-light
+            =<  link_to '(example)', asset_pack_path('media/images/custom-design-example.jpg'), target: '_blank'
+        #main-picture-div.file.has-name.is-fullwidth
+          label.file-label
+            = main_picture_form.hidden_field :image, value: custom_design.main_picture.try(:cached_image_data)
+            = main_picture_form.file_field :image, class: 'file-input', accept: '.png, .jpg, .jpeg'
+            span.file-cta
+              span.file-icon
+                i.fas.fa-upload
+              span.file-label Choose a image
+
+            span.file-name.truncate = custom_design.main_picture.image_data.try(:dig, 'metadata', 'filename')
+
+      = errors_for(custom_design.main_picture, :image)
+
+  = f.fields_for :example_picture do |example_picture_form|
+    .field
+      .control
+        label.label
+          | Usage Screenshot
+          span.has-text-weight-light
+            |  (optional)
+        #example-picture-div.file.has-name.is-fullwidth
+          label.file-label
+            = example_picture_form.hidden_field :image, value: custom_design.example_picture.try(:cached_image_data)
+            = example_picture_form.file_field :image, class: 'file-input', accept: '.png, .jpg, .jpeg'
+            span.file-cta
+              span.file-icon
+                i.fas.fa-upload
+              span.file-label Choose a image
+
+            span.file-name.truncate = custom_design.example_picture.image_data.try(:dig, 'metadata', 'filename')
+
+
+      = errors_for(custom_design.example_picture, :image)
+
+  .field
+    .control
+      = f.submit class: 'button is-dark is-fullwidth'
+
+  .field
+    .control
+      = link_to 'Back', custom_designs_path, class: 'button is-text is-fullwidth'
+
+= content_for :scripts
+  = javascript_pack_tag 'custom_designs/form'

@@ -1,0 +1,52 @@
+nav.navbar.is-primary.is-fixed-top(role="navigation" aria-label="main navigation")
+  .navbar-brand
+    = link_to 'CustomDesigns.app', root_path, class: 'navbar-item has-text-weight-bold is-size-5'
+
+    a.navbar-burger.burger(role="button" aria-label="menu" aria-expanded="false" data-target="navbarMenu")
+      span(aria-hidden="true")
+      span(aria-hidden="true")
+      span(aria-hidden="true")
+
+  #navbarMenu.navbar-menu
+    .navbar-end
+      = link_to root_path, class: 'navbar-item has-text-weight-semibold' do
+        span.icon
+          i class="fas fa-th"
+        | Explore
+
+      = link_to new_custom_design_path, class: 'navbar-item has-text-weight-semibold' do
+        span.icon
+          i.fas.fa-plus
+        | Publish Custom Design
+
+      - if signed_in?
+        .navbar-item.has-dropdown.is-hoverable
+          a.navbar-link.has-text-weight-semibold = current_user.creator.name || current_user.email
+
+          .navbar-dropdown.is-right
+            = link_to custom_designs_path, class: 'navbar-item' do
+              span.icon
+                i.fas.fa-pencil-ruler
+              | My Custom Designs
+
+            = link_to custom_designs_path, class: 'navbar-item ' do
+              span.icon
+                i.fas.fa-bookmark
+              | My Bookmarks
+
+            = link_to edit_creator_path, class: 'navbar-item' do
+              span.icon
+                i.fas.fa-user
+              | My Profile
+
+            hr.navbar-divider
+            = link_to sign_out_path, method: :delete, class: 'navbar-item' do
+              span.icon
+                i.fas.fa-sign-out-alt
+              | Sign Out
+
+      - else
+        = link_to sign_in_path, class: 'navbar-item' do
+          span.icon
+            i.fas.fa-sign-in-alt
+          | Sign In

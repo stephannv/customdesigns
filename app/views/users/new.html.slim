@@ -1,9 +1,6 @@
-#clearance.sign-up
-  h2
-    = t(".title")
-  = form_for @user do |form|
-    = render partial: '/users/form', object: form
-    .submit-field
-      = form.submit
-    .other-links
-      = link_to t(".sign_in"), sign_in_path
+.columns.is-centered
+  .column.is-4
+    .box
+      .title Sign Up
+
+      = render partial: 'users/form', locals: { user: @user }
