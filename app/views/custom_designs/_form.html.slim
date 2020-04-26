@@ -25,7 +25,7 @@
             span.file-cta
               span.file-icon
                 i.fas.fa-upload
-              span.file-label Choose a image
+              span.file-label.is-hidden-mobile Choose a image
 
             span.file-name.truncate = custom_design.main_picture.image_data.try(:dig, 'metadata', 'filename')
 
@@ -45,12 +45,19 @@
             span.file-cta
               span.file-icon
                 i.fas.fa-upload
-              span.file-label Choose a image
+              span.file-label.is-hidden-mobile Choose a image
 
             span.file-name.truncate = custom_design.example_picture.image_data.try(:dig, 'metadata', 'filename')
 
 
       = errors_for(custom_design.example_picture, :image)
+
+  .field
+    label.label Categories
+    .control
+      .select.is-multiple.is-fullwidth
+        = f.collection_select :category_ids, @categories, :id, :name, {}, multiple: true
+
 
   .field
     .control

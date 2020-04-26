@@ -23,3 +23,6 @@ const cleave = new Cleave(designIdField, {
 })
 
 cleave.onInput(designIdValue)
+
+const categoriesSelect = document.getElementById('custom_design_category_ids');
+categoriesSelect.size = categoriesSelect.length;

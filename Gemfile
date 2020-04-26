@@ -6,6 +6,7 @@ ruby '2.7.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'clearance', '2.1.0'
 gem 'fastimage', '2.1.7'
+gem 'friendly_id', '5.3.0'
 gem 'image_processing', '1.10.3'
 gem 'jbuilder', '~> 2.7'
 gem 'pg', '>= 0.18', '< 2.0'

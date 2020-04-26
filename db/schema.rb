@@ -10,11 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_20_212116) do
+ActiveRecord::Schema.define(version: 2020_04_26_215002) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", limit: 20, null: false
+    t.citext "slug", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "categorizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "custom_design_id", null: false
+    t.uuid "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_categorizations_on_category_id"
+    t.index ["custom_design_id", "category_id"], name: "index_categorizations_on_custom_design_id_and_category_id", unique: true
+    t.index ["custom_design_id"], name: "index_categorizations_on_custom_design_id"
+  end
 
   create_table "creators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
@@ -57,6 +77,8 @@ ActiveRecord::Schema.define(version: 2020_04_20_212116) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  add_foreign_key "categorizations", "categories"
+  add_foreign_key "categorizations", "custom_designs"
   add_foreign_key "creators", "users"
   add_foreign_key "custom_designs", "creators"
   add_foreign_key "custom_designs", "pictures", column: "example_picture_id"

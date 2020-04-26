@@ -17,10 +17,8 @@
                   =< '(' + @custom_design.creator.creator_id + ')'
 
           .tags
-            span.tag.is-dark.has-text-weight-semibold Floor
-            span.tag.is-dark.has-text-weight-semibold Floor
-            span.tag.is-dark.has-text-weight-semibold Floor
-            span.tag.is-dark.has-text-weight-semibold Floor
+            - @custom_design.categories.each do |category|
+              span.tag.is-dark.has-text-weight-semibold = category.name
 
             span.tag.is-light Sports
             span.tag.is-light Sports
