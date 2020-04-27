@@ -5,7 +5,9 @@ class CustomDesign < ApplicationRecord
   belongs_to :example_picture, class_name: 'Picture', autosave: true, optional: true
 
   has_many :categorizations, dependent: :destroy
+  has_many :taggings, dependent: :destroy
   has_many :categories, through: :categorizations
+  has_many :tags, through: :taggings
 
   accepts_nested_attributes_for :main_picture
   accepts_nested_attributes_for :example_picture, reject_if: proc { |attributes| attributes[:image].blank? }

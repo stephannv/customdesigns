@@ -58,6 +58,10 @@
       .select.is-multiple.is-fullwidth
         = f.collection_select :category_ids, @categories, :id, :name, {}, multiple: true
 
+  .field
+    label.label Tags
+    .control
+      = text_field_tag 'custom_design[tags]', custom_design.tags.pluck(:name).join(', ')
 
   .field
     .control

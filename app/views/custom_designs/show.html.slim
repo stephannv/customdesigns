@@ -20,9 +20,9 @@
             - @custom_design.categories.each do |category|
               span.tag.is-dark.has-text-weight-semibold = category.name
 
-            span.tag.is-light Sports
-            span.tag.is-light Sports
-            span.tag.is-light Sports
+            - @custom_design.tags.each do |tag|
+              span.tag.is-light = tag.name
+
           nav.level.is-mobile
             .level-left
 

@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_26_215002) do
+ActiveRecord::Schema.define(version: 2020_04_27_193545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 20, null: false
@@ -66,6 +67,25 @@ ActiveRecord::Schema.define(version: 2020_04_26_215002) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "taggings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "custom_design_id", null: false
+    t.uuid "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["custom_design_id", "tag_id"], name: "index_taggings_on_custom_design_id_and_tag_id", unique: true
+    t.index ["custom_design_id"], name: "index_taggings_on_custom_design_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", limit: 20, null: false
+    t.citext "slug", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "encrypted_password", limit: 128, null: false
@@ -83,4 +103,6 @@ ActiveRecord::Schema.define(version: 2020_04_26_215002) do
   add_foreign_key "custom_designs", "creators"
   add_foreign_key "custom_designs", "pictures", column: "example_picture_id"
   add_foreign_key "custom_designs", "pictures", column: "main_picture_id"
+  add_foreign_key "taggings", "custom_designs"
+  add_foreign_key "taggings", "tags"
 end

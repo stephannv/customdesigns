@@ -6,7 +6,7 @@ class CustomDesignsController < ApplicationController
   end
 
   def show
-    @custom_design = CustomDesign.joins(:categories).find(params[:id])
+    @custom_design = CustomDesign.left_joins(:categories).find(params[:id])
   end
 
   def new
@@ -64,13 +64,26 @@ class CustomDesignsController < ApplicationController
   end
 
   def custom_design_params
+    raw_tags = params.require(:custom_design).delete(:tags)
+
     params.require(:custom_design).permit(
       :name,
       :design_id,
       main_picture_attributes: %i[id image],
       example_picture_attributes: %i[id image],
       category_ids: []
-    )
+    ).merge(tag_ids: handle_tag_ids(raw_tags))
+  end
+
+  def handle_tag_ids(raw_tags)
+    tag_names = JSON.parse(raw_tags).flat_map(&:values)
+    tags = tag_names.to_a.first(5).map do |name|
+      tag = Tag.find_by('lower(unaccent(name)) = lower(unaccent(?))', name.strip)
+      tag || Tag.create!(name: name.strip)
+    end
+    tags.map(&:id)
+  rescue => e
+    []
   end
 end
 

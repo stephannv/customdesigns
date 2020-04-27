@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
 
+gem 'awesome_print', '1.8.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'clearance', '2.1.0'
 gem 'fastimage', '2.1.7'

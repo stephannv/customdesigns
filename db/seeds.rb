@@ -7,16 +7,18 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 %w[
-  Tile Paths
-  Wallpaper\ &\ Flooring
-  Clothes
-  Caps
-  Fabrics
-  Stalls
-  Signs
-  Boards
   Art
+  Boards\ &\ Panels
+  Caps
+  Clothes
+  Fabrics
   Miscellaneous
+  Screens
+  Signs
+  Stalls
+  Tile\ Paths
+  Wallpaper\ &\ Flooring
 ].each do |category_name|
   Category.find_or_create_by!(name: category_name)
 end
+

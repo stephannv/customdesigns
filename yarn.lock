@@ -1033,6 +1033,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@yaireo/tagify@^3.7.1":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@yaireo/tagify/-/tagify-3.7.1.tgz#4c32ed96039abfe5ea85abe3226f50bc1aa329cc"
+  integrity sha512-Sdn3xx7Dg9KaOQzY8jmZ0rQI/DCnNxQsK5o0LsA+5xOFE5W+Iv9ZXPGlDyNa/f/Nkmg4phMuyefSReluTSvOPQ==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
