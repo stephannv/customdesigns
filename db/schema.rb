@@ -10,13 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_193545) do
+ActiveRecord::Schema.define(version: 2020_04_28_220237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "unaccent"
+
+  create_table "bookmarks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "creator_id", null: false
+    t.uuid "custom_design_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id", "custom_design_id"], name: "index_bookmarks_on_creator_id_and_custom_design_id", unique: true
+    t.index ["creator_id"], name: "index_bookmarks_on_creator_id"
+    t.index ["custom_design_id"], name: "index_bookmarks_on_custom_design_id"
+  end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 20, null: false
@@ -55,6 +65,7 @@ ActiveRecord::Schema.define(version: 2020_04_27_193545) do
     t.string "design_id", limit: 17, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "bookmarks_count"
     t.index ["creator_id"], name: "index_custom_designs_on_creator_id"
     t.index ["design_id"], name: "index_custom_designs_on_design_id", unique: true
     t.index ["example_picture_id"], name: "index_custom_designs_on_example_picture_id"
@@ -97,6 +108,8 @@ ActiveRecord::Schema.define(version: 2020_04_27_193545) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  add_foreign_key "bookmarks", "creators"
+  add_foreign_key "bookmarks", "custom_designs"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "custom_designs"
   add_foreign_key "creators", "users"

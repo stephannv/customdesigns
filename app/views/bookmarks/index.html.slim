@@ -1,0 +1,19 @@
+.columns.is-centered
+  .column.is-12
+    .title My Bookmarks
+
+.columns
+  - @bookmarks.each do |bookmark|
+    .column.is-3
+      = render 'custom_designs/custom_design_card', custom_design: bookmark.custom_design
+
+  - if @bookmarks.empty?
+    .column.is-12
+      .box.has-text-centered
+        br
+        .subtitle
+          | You don't have any bookmark yet.
+        p
+
+- content_for :scripts
+  = javascript_pack_tag 'bookmark'

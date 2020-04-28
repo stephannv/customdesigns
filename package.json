@@ -7,7 +7,7 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
-    "@yaireo/tagify": "^3.7.1",
+    "@yaireo/tagify": "3.7.1",
     "bulma": "^0.8.2",
     "cleave.js": "^1.5.10"
   },

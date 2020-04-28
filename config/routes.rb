@@ -7,5 +7,13 @@ Rails.application.routes.draw do
   resources :custom_designs
 
   resources :tags, only: :index
+
+  resources :bookmarks, only: :index do
+    collection do
+      post '/:custom_design_id', to: 'bookmarks#create', as: :create
+      delete '/:custom_design_id', to: 'bookmarks#destroy', as: :destroy
+    end
+  end
+
   root to: 'home#index'
 end

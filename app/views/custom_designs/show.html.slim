@@ -44,17 +44,15 @@
               a.level-item.has-text-primary
                 span.icon
                   i.far.fa-heart
-                span.has-text-black 1220
+                span.has-text-black.hearts-count 1220
 
-              a.level-item.has-text-warning
-                span.icon
-                  i.far.fa-bookmark
-                span.has-text-black 520
-
-
+              = bookmark_button(current_creator, @custom_design, classes: 'level-item has-text-warning')
 
       - if @custom_design.example_picture.present?
         .column
           .subtitle Example:
           figure.image.is-16by9
             = image_tag @custom_design.example_picture.image_url, class: 'image is-16-by9'
+
+- content_for :scripts
+  = javascript_pack_tag 'bookmark'

@@ -1,3 +1,5 @@
+pre = custom_design.errors.full_messages.to_json
+
 = form_for custom_design do |f|
   .field
     = f.label :name, class: 'label'
@@ -30,6 +32,7 @@
             span.file-name.truncate = custom_design.main_picture.image_data.try(:dig, 'metadata', 'filename')
 
       = errors_for(custom_design.main_picture, :image)
+      = errors_for(custom_design.main_picture, :image_data)
 
   = f.fields_for :example_picture do |example_picture_form|
     .field
@@ -48,20 +51,25 @@
               span.file-label.is-hidden-mobile Choose a image
 
             span.file-name.truncate = custom_design.example_picture.image_data.try(:dig, 'metadata', 'filename')
-
-
       = errors_for(custom_design.example_picture, :image)
 
   .field
     label.label Categories
     .control
       .select.is-multiple.is-fullwidth
-        = f.collection_select :category_ids, @categories, :id, :name, {}, multiple: true
+        = f.collection_select :category_ids,
+          @categories,
+          :id,
+          :name,
+          {},
+          multiple: true,
+          include_blank: false,
+          include_hidden: false
 
   .field
     label.label Tags
     .control
-      = text_field_tag 'custom_design[tags]', custom_design.tags.pluck(:name).join(', ')
+      = text_field_tag 'custom_design[tags]', custom_design.tags.map(&:name).join(', ')
 
   .field
     .control

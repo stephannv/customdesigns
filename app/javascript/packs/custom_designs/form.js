@@ -53,9 +53,13 @@ const debounce = (cb, interval, immediate) => {
   }
 }
 
+const unaccent = (string) => {
+  return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+}
+
 const input = document.getElementById('custom_design_tags')
 const tagify = new Tagify(input, {
-  whitelist:[],
+  whitelist: [],
   pattern: /^[a-zA-ZÀ-ú0-9_. ]*$/,
   skipInvalid: true,
   maxTags: 5,
@@ -74,9 +78,10 @@ const onTagInput = (e) => {
 
   fetch('/tags?search=' + value, {signal:controller.signal})
     .then(RES => RES.json())
-    .then(function(whitelist){
-      tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
-      tagify.loading(false).dropdown.show.call(tagify, value) // render the suggestions dropdown
+    .then(function(suggestionList){
+      const unaccentSuggestionList = suggestionList.map((e) => unaccent(e))
+      tagify.settings.whitelist.splice(0, suggestionList.length, ...unaccentSuggestionList)
+      tagify.loading(false).dropdown.show.call(tagify, unaccent(value)) // render the suggestions dropdown
     })
 }
 
