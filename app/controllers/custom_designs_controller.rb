@@ -1,5 +1,6 @@
 class CustomDesignsController < ApplicationController
   before_action :require_login, only: %i[index new create edit update destroy]
+  before_action -> { validate_recaptcha!(token: params[:recaptcha_token], action: 'upload') }, only: %i[create update]
 
   def index
     scope = current_creator

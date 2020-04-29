@@ -55,4 +55,19 @@ module ApplicationHelper
       classes: classes,
       icon_class: icon_class
   end
+
+  def include_recaptcha_js
+    return unless Rails.env.production?
+
+    tag.script src: "https://www.google.com/recaptcha/api.js?render=#{Rails.application.credentials.recaptcha[:site_key]}"
+  end
+
+  def execute_recaptcha(action)
+    return unless Rails.env.production?
+
+    recaptcha_id = "recaptcha_token_#{SecureRandom.hex(10)}"
+    site_key = Rails.application.credentials.recaptcha[:site_key]
+
+    render 'layouts/recaptcha', recaptcha_id: recaptcha_id, site_key: site_key, action: action
+  end
 end

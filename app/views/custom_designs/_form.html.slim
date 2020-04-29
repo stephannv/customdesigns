@@ -77,5 +77,10 @@
     .control
       = link_to 'Back', custom_designs_path, class: 'button is-text is-fullwidth'
 
-= content_for :scripts
+  = execute_recaptcha('upload')
+
+- content_for :scripts
   = javascript_pack_tag 'custom_designs/form'
+
+- content_for :recaptcha_js
+  = include_recaptcha_js

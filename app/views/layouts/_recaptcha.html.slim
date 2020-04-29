@@ -1,0 +1,12 @@
+input(name='recaptcha_token' type='hidden' id=recaptcha_id)
+
+javascript:
+  const siteKey = '#{site_key}';
+  const action = '#{action}';
+  const tokenId = '#{recaptcha_id}';
+
+  grecaptcha.ready(() => {
+    grecaptcha.execute(siteKey, { action: action }).then((token) => {
+      document.getElementById(tokenId).value = token
+    })
+  })

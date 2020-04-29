@@ -9,6 +9,7 @@ html.has-navbar-fixed-top
 
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_pack_tag 'application'
+    = yield :recaptcha_js
 
   body
     = render 'layouts/navbar'
