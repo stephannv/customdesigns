@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 gem 'awesome_print', '1.8.0'
+gem "aws-sdk-s3", '1.63.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'clearance', '2.1.0'
 gem 'fastimage', '2.1.7'
@@ -15,7 +16,6 @@ gem 'puma', '~> 4.1'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 gem 'sass-rails', '>= 6'
 gem 'shrine', '3.2.1'
-gem "shrine-cloudinary", "1.1.1"
 gem 'slim-rails', '3.2.0'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
