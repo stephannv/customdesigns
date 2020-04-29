@@ -2,7 +2,7 @@ class BookmarksController < ApplicationController
   before_action :require_login
 
   def index
-    @bookmarks = current_creator.bookmarks.joins(:custom_design).order(created_at: :desc)
+    @custom_designs = current_creator.bookmarked_custom_designs.order('bookmarks.created_at DESC')
   end
 
   def create

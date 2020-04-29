@@ -1,5 +1,3 @@
-console.log('bookmark')
-
 const bookmarkLinks = document.querySelectorAll('.bookmark-link')
 
 bookmarkLinks.forEach((bookmarkLink) => {

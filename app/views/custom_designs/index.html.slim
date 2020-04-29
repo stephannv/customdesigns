@@ -2,7 +2,7 @@
   .column.is-12
     .title My Custom Designs
 
-.columns
+.columns.is-multiline
   - @custom_designs.each do |custom_design|
     .column.is-3
       = render 'custom_design_card', custom_design: custom_design
@@ -19,3 +19,4 @@
 
 - content_for :scripts
   = javascript_pack_tag 'bookmark'
+  = javascript_pack_tag 'heart'

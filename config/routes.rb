@@ -15,5 +15,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/hearts/:custom_design_id', to: 'hearts#create', as: :create_hearts
+  delete '/hearts/:custom_design_id', to: 'hearts#destroy', as: :destroy_hearts
+
   root to: 'home#index'
 end

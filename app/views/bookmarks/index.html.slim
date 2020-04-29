@@ -1,13 +1,13 @@
-.columns.is-centered
+.columns.is-centered.is-multiline.is-mobile
   .column.is-12
     .title My Bookmarks
 
-.columns
-  - @bookmarks.each do |bookmark|
+.columns.is-multiline
+  - @custom_designs.each do |custom_design|
     .column.is-3
-      = render 'custom_designs/custom_design_card', custom_design: bookmark.custom_design
+      = render 'custom_designs/custom_design_card', custom_design: custom_design
 
-  - if @bookmarks.empty?
+  - if @custom_designs.empty?
     .column.is-12
       .box.has-text-centered
         br
@@ -17,3 +17,4 @@
 
 - content_for :scripts
   = javascript_pack_tag 'bookmark'
+  = javascript_pack_tag 'heart'

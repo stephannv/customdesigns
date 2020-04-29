@@ -1,0 +1,5 @@
+= link_to create_hearts_path(custom_design), method: request_method, remote: true, class: classes.to_s + ' heart-link' do
+  span.icon
+    i.heart-icon.fa-heart(class=icon_class)
+
+  span.has-text-black.heart-count = custom_design.hearts.size

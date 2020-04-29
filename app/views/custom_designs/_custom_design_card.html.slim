@@ -25,10 +25,7 @@
 
   .card-footer
     p.card-footer-item.has-text-centered
-      = link_to edit_custom_design_path(custom_design), class: 'has-text-primary' do
-        span.icon.is-small.is-fw
-          i.far.fa-heart
-        span.has-text-black.hearts-count 1220
+      = heart_button(current_creator, custom_design, classes: 'has-text-primary')
 
     p.card-footer-item.has-text-centered
       = bookmark_button(current_creator, custom_design, classes: 'has-text-warning')

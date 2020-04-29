@@ -37,4 +37,20 @@ module ApplicationHelper
       classes: classes,
       icon_class: icon_class
   end
+
+  def heart_button(creator, custom_design, classes: '')
+    if creator.loved?(custom_design)
+      request_method = :delete
+      icon_class = 'fas'
+    else
+      request_method = :post
+      icon_class = 'far'
+    end
+
+    render 'custom_designs/heart_button',
+      custom_design: custom_design,
+      request_method: request_method,
+      classes: classes,
+      icon_class: icon_class
+  end
 end
