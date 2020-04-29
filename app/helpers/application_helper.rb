@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def errors_for(object, attribute)
     return unless object.try(:errors).try(:has_key?, attribute)
 

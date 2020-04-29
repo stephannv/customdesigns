@@ -2,7 +2,15 @@ class CustomDesignsController < ApplicationController
   before_action :require_login, only: %i[index new create edit update destroy]
 
   def index
-    @custom_designs = current_creator.custom_designs.joins(:main_picture, :categories).order(created_at: :desc).uniq
+    scope = current_creator
+      .custom_designs
+      .joins(:main_picture)
+      .left_joins(:categories, :tags, :bookmarks, :hearts)
+      .includes(:main_picture, :categories, :tags, :bookmarks, :hearts)
+      .order(created_at: :desc)
+      .distinct
+
+    @pagy, @custom_designs = pagy(scope)
   end
 
   def show

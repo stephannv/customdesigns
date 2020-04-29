@@ -2,7 +2,15 @@ class BookmarksController < ApplicationController
   before_action :require_login
 
   def index
-    @custom_designs = current_creator.bookmarked_custom_designs.order('bookmarks.created_at DESC')
+    scope = current_creator.bookmarked_custom_designs
+      .select('custom_designs.*, bookmarks.created_at')
+      .joins(:main_picture)
+      .left_joins(:categories, :tags, :hearts)
+      .includes(:main_picture, :categories, :tags, :hearts)
+      .order('bookmarks.created_at DESC')
+      .distinct
+
+    @pagy, @custom_designs = pagy(scope)
   end
 
   def create
