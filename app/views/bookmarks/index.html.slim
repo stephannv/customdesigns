@@ -5,12 +5,13 @@
       = @pagy.count
       |  Custom Designs
 .columns.is-multiline
-  - @custom_designs.each do |custom_design|
-    .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-      = render 'custom_designs/custom_design_card', custom_design: custom_design
+  - if @custom_designs.exists?
+    - @custom_designs.each do |custom_design|
+      .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+        = render 'custom_designs/custom_design_card', custom_design: custom_design
 
-  .column.is-12
-    == render 'layouts/pagination', pagy: @pagy
+    .column.is-12
+      == render 'layouts/pagination', pagy: @pagy
 
   - if @custom_designs.empty?
     .column.is-12

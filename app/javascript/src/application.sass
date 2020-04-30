@@ -5,7 +5,7 @@ $error-color: #E37576
 $warning-color: #ECDD5C
 $background-color: #F1E7CC
 $text-color: #4F4333
-
+$placeholder-color: #838383
 // BULMA OVERRIDE
 $primary: $primary-color
 $primary-invert: white
@@ -18,7 +18,11 @@ $text-strong: $text-color
 
 $body-background-color: $background-color
 
-.icon
+$navbar-height: 4.25rem
+$input-placeholder-color: $placeholder-color
+
+
+a.navbar-item > .icon
   align-items: center !important
   display: inline-flex !important
   justify-content: center !important
@@ -36,5 +40,8 @@ $body-background-color: $background-color
 
 .custom-design-card-image
   padding: 10px
+
+.navbar-search-input
+    width: 100%
 
 @import "~bulma/bulma"

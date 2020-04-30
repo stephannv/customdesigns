@@ -1,14 +1,14 @@
 .columns.is-centered
   .column.is-12
-    .title My Custom Designs
+    .title Results
     .subtitle
-      = @pagy.count
-      |  Custom Designs
+      =< pluralize(@pagy.count, 'Custom Design')
+
 .columns.is-multiline
   - if @custom_designs.exists?
     - @custom_designs.each do |custom_design|
       .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-        = render 'custom_design_card', custom_design: custom_design
+        = render 'custom_designs/custom_design_card', custom_design: custom_design
 
     .column.is-12
       == render 'layouts/pagination', pagy: @pagy
@@ -18,9 +18,9 @@
       .box.has-text-centered
         br
         .subtitle
-          | You don't have any custom designs published yet. Create one
-          =< link_to 'here', new_custom_design_path
-          | .
+          | We couldn't find any custom designs matching  '
+          b = @search_term
+          |'
         p
 
 - content_for :scripts

@@ -1,13 +1,15 @@
-nav.navbar.is-primary.is-fixed-top(role="navigation" aria-label="main navigation")
+nav.navbar.is-primary.is-fixed-top(role='navigation' aria-label='main navigation')
   .navbar-brand
     = link_to 'CustomDesigns.app', root_path, class: 'navbar-item has-text-weight-bold is-size-5'
 
-    a.navbar-burger.burger(role="button" aria-label="menu" aria-expanded="false" data-target="navbarMenu")
-      span(aria-hidden="true")
-      span(aria-hidden="true")
-      span(aria-hidden="true")
+    a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarMenu')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
 
   #navbarMenu.navbar-menu
+    = render 'layouts/navbar_search'
+
     .navbar-end
       = link_to root_path, class: 'navbar-item has-text-weight-semibold' do
         span.icon

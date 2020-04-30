@@ -1,0 +1,12 @@
+.container
+  = form_tag search_path, method: :get
+    .navbar-item
+      .field.navbar-search-input
+        .control.has-icons-left.is-expanded
+          = text_field_tag :q, @search_term,
+            class: 'input is-fullwidth is-medium',
+            placeholder: 'Search by name, code, creator, category, tag, everything...',
+            required: true
+
+          span.icon
+            i.fas.fa-search

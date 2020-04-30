@@ -1,4 +1,11 @@
 class CustomDesign < ApplicationRecord
+  include PgSearch::Model
+  # CONFIGS
+  pg_search_scope :search_by_everything,
+    against: %i[full_text_index],
+    using: { tsearch: { tsvector_column: :full_text_index } }
+
+  # RELATIONS
   belongs_to :creator
 
   belongs_to :main_picture, class_name: 'Picture', autosave: true
@@ -15,6 +22,7 @@ class CustomDesign < ApplicationRecord
   accepts_nested_attributes_for :main_picture
   accepts_nested_attributes_for :example_picture, reject_if: proc { |attributes| attributes[:image].blank? }
 
+  # VALIDATIONS
   validates :name, presence: true
   validates :design_id, presence: true
   validates :main_picture, presence: true
@@ -25,7 +33,30 @@ class CustomDesign < ApplicationRecord
 
   validates :design_id, format: { with: /\AMO(?:-(?:[A-Z]|\d){4}){3}\z/ }
 
+  # CALLBACKS
   after_save do
     main_picture.image_derivatives! if main_picture.image_changed?
+  end
+
+  after_validation :generate_full_text_index
+
+  def generate_full_text_index
+    return unless new_record? || changed?
+
+    sql = <<-SQL
+      SELECT
+        setweight(to_tsvector('simple', '#{name}'), 'A') ||
+        setweight(to_tsvector('simple', '#{design_id}'), 'A') ||
+        setweight(to_tsvector('simple', '#{creator.name}'), 'B') ||
+        setweight(to_tsvector('simple', '#{creator.creator_id}'), 'B') ||
+        setweight(to_tsvector('simple', '#{categories.map(&:name).join(' ')}'), 'B') ||
+        setweight(to_tsvector('simple', '#{tags.map(&:name).join(' ')}'), 'B') AS full_text_index
+    SQL
+
+    result = self.class.connection.execute(sql)
+
+    if result.any?
+      self.full_text_index = result[0]['full_text_index']
+    end
   end
 end

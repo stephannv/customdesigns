@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_224207) do
+ActiveRecord::Schema.define(version: 2020_04_29_201101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -61,15 +61,17 @@ ActiveRecord::Schema.define(version: 2020_04_28_224207) do
     t.uuid "creator_id", null: false
     t.uuid "main_picture_id", null: false
     t.uuid "example_picture_id"
-    t.string "name", null: false
+    t.string "name", limit: 20, null: false
     t.string "design_id", limit: 17, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "bookmarks_count", default: 0
     t.integer "hearts_count", default: 0
+    t.tsvector "full_text_index"
     t.index ["creator_id"], name: "index_custom_designs_on_creator_id"
     t.index ["design_id"], name: "index_custom_designs_on_design_id", unique: true
     t.index ["example_picture_id"], name: "index_custom_designs_on_example_picture_id"
+    t.index ["full_text_index"], name: "index_custom_designs_on_full_text_index", using: :gin
     t.index ["main_picture_id"], name: "index_custom_designs_on_main_picture_id"
   end
 
