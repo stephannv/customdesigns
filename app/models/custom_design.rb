@@ -38,22 +38,22 @@ class CustomDesign < ApplicationRecord
     main_picture.image_derivatives! if main_picture.image_changed?
   end
 
-  after_validation :generate_full_text_index
+  before_save :generate_full_text_index
 
   def generate_full_text_index
     return unless new_record? || changed?
-
+    connection = self.class.connection
     sql = <<-SQL
       SELECT
-        setweight(to_tsvector('simple', '#{name}'), 'A') ||
-        setweight(to_tsvector('simple', '#{design_id}'), 'A') ||
-        setweight(to_tsvector('simple', '#{creator.name}'), 'B') ||
-        setweight(to_tsvector('simple', '#{creator.creator_id}'), 'B') ||
-        setweight(to_tsvector('simple', '#{categories.map(&:name).join(' ')}'), 'B') ||
-        setweight(to_tsvector('simple', '#{tags.map(&:name).join(' ')}'), 'B') AS full_text_index
+        setweight(to_tsvector('simple', #{connection.quote(name)}), 'A') ||
+        setweight(to_tsvector('simple', #{connection.quote(design_id)}), 'A') ||
+        setweight(to_tsvector('simple', #{connection.quote(creator.name)}), 'B') ||
+        setweight(to_tsvector('simple', #{connection.quote(creator.creator_id)}), 'B') ||
+        setweight(to_tsvector('simple', #{connection.quote(categories.map(&:name).join(' '))}), 'B') ||
+        setweight(to_tsvector('simple', #{connection.quote(tags.map(&:name).join(' '))}), 'B') AS full_text_index
     SQL
 
-    result = self.class.connection.execute(sql)
+    result = self.class.connection.execute(self.class.sanitize_sql(sql))
 
     if result.any?
       self.full_text_index = result[0]['full_text_index']

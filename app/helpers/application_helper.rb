@@ -25,35 +25,61 @@ module ApplicationHelper
   end
 
   def bookmark_button(creator, custom_design, classes: '')
-    if creator.bookmarked?(custom_design)
-      request_method = :delete
-      icon_class = 'fas'
+    if signed_in?
+      if creator.bookmarked?(custom_design)
+        request_method = :delete
+        icon_class = 'fas'
+        href = destroy_bookmarks_path(custom_design)
+        remote = true
+      else
+        request_method = :post
+        icon_class = 'far'
+        href = create_bookmarks_path(custom_design)
+        remote = true
+      end
     else
-      request_method = :post
-      icon_class = 'far'
+      icon_class = 'fas'
+      request_method = :get
+      href = sign_in_path
+      remote = false
     end
 
     render 'custom_designs/bookmark_button',
       custom_design: custom_design,
       request_method: request_method,
       classes: classes,
-      icon_class: icon_class
+      icon_class: icon_class,
+      href: href,
+      remote: remote
   end
 
   def heart_button(creator, custom_design, classes: '')
-    if creator.loved?(custom_design)
-      request_method = :delete
-      icon_class = 'fas'
+    if signed_in?
+      if creator.loved?(custom_design)
+        request_method = :delete
+        icon_class = 'fas'
+        href = destroy_hearts_path(custom_design)
+        remote = true
+      else
+        request_method = :post
+        icon_class = 'far'
+        href = create_hearts_path(custom_design)
+        remote = true
+      end
     else
-      request_method = :post
-      icon_class = 'far'
+      icon_class = 'fas'
+      request_method = :get
+      href = sign_in_path
+      remote = false
     end
 
     render 'custom_designs/heart_button',
       custom_design: custom_design,
       request_method: request_method,
       classes: classes,
-      icon_class: icon_class
+      icon_class: icon_class,
+      href: href,
+      remote: remote
   end
 
   def include_recaptcha_js

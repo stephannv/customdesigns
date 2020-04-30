@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_creator
 
   def current_creator
-    current_user.creator
+    current_user.try(:creator)
   end
 
   def validate_recaptcha!(token:, action:)

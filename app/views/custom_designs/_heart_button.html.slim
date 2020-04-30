@@ -1,4 +1,4 @@
-= link_to create_hearts_path(custom_design), method: request_method, remote: true, class: classes.to_s + ' heart-link' do
+= link_to href, method: request_method, remote: remote, class: classes.to_s + ' heart-link' do
   span.icon
     i.heart-icon.fa-heart(class=icon_class)
 

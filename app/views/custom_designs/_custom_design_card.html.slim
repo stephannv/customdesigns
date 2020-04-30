@@ -16,7 +16,7 @@
             p.has-text-black.is-4 = custom_design.creator.name
 
     .content
-      .tags
+      .tags.is-small
         - custom_design.categories.each do |category|
           span.tag.is-dark.has-text-weight-semibold = category.name
 
@@ -30,18 +30,19 @@
     p.card-footer-item.has-text-centered
       = bookmark_button(current_creator, custom_design, classes: 'has-text-warning')
 
-  .card-footer
-    p.card-footer-item.has-text-centered
-      = link_to edit_custom_design_path(custom_design), title: 'Edit', class: 'has-text-dark' do
-        span.icon.is-small
-          i.fas.fa-edit
-        | Edit
-    p.card-footer-item.has-text-centered
-      = link_to custom_design_path(custom_design),
-        method: :delete,
-        data: { confirm: 'Are you sure?' },
-        title: 'Destroy',
-        class: 'has-text-danger has-text-centered' do
-        span.icon.is-small
-          i.fas.fa-trash
-        | Destroy
+  - if signed_in? && custom_design.creator == current_creator
+    .card-footer
+      p.card-footer-item.has-text-centered
+        = link_to edit_custom_design_path(custom_design), title: 'Edit', class: 'has-text-dark' do
+          span.icon.is-small
+            i.fas.fa-edit
+          | Edit
+      p.card-footer-item.has-text-centered
+        = link_to custom_design_path(custom_design),
+          method: :delete,
+          data: { confirm: 'Are you sure?' },
+          title: 'Destroy',
+          class: 'has-text-danger has-text-centered' do
+          span.icon.is-small
+            i.fas.fa-trash
+          | Destroy

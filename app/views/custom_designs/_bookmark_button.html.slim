@@ -1,4 +1,4 @@
-= link_to create_bookmarks_path(custom_design), method: request_method, remote: true, class: classes.to_s + ' bookmark-link' do
+= link_to href, method: request_method, remote: remote, class: classes.to_s + ' bookmark-link' do
   span.icon
     i.bookmark-icon.fa-bookmark(class=icon_class)
 

@@ -25,21 +25,23 @@
 
           nav.level.is-mobile
             .level-left
+              / don't remove .level-left
 
             .level-right
-              = link_to edit_custom_design_path(@custom_design), title: 'Edit', class: 'level-item has-text-dark' do
-                span.icon
-                  i.fas.fa-edit
-                | Edit
+              - if signed_in? && custom_design.creator == current_creator
+                = link_to edit_custom_design_path(@custom_design), title: 'Edit', class: 'level-item has-text-dark' do
+                  span.icon
+                    i.fas.fa-edit
+                  | Edit
 
-              = link_to custom_design_path(@custom_design),
-                method: :delete,
-                data: { confirm: 'Are you sure?' },
-                title: 'Destroy',
-                class: 'has-text-danger level-item' do
-                span.icon
-                  i.fas.fa-trash
-                | Destroy
+                = link_to custom_design_path(@custom_design),
+                  method: :delete,
+                  data: { confirm: 'Are you sure?' },
+                  title: 'Destroy',
+                  class: 'has-text-danger level-item' do
+                  span.icon
+                    i.fas.fa-trash
+                  | Destroy
 
               = heart_button(current_creator, @custom_design, classes: 'level-item has-text-primary')
 
