@@ -88,6 +88,12 @@ module ApplicationHelper
     tag.script src: "https://www.google.com/recaptcha/api.js?render=#{Rails.application.credentials.recaptcha[:site_key]}"
   end
 
+  def include_analytics_js
+    return unless Rails.env.production?
+
+    render 'layouts/analytics', analytics_id: Rails.application.credentials.analytics[:id]
+  end
+
   def execute_recaptcha(action)
     return unless Rails.env.production?
 
