@@ -1,7 +1,7 @@
 doctype html
 html.has-navbar-fixed-top
   head
-    title AC Custom Designs
+    / title CustomDesigns.app
     = csrf_meta_tags
     = csp_meta_tag
 
@@ -10,12 +10,16 @@ html.has-navbar-fixed-top
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_pack_tag 'application'
     = yield :recaptcha_js
-  body
+
+    = display_meta_tags site: 'CustomDesigns.app'
+  body.app
     = render 'layouts/navbar'
-    .section.is-marginless
+    .section.is-marginless.app-content
       .container
         = flash_message
         = yield
+
+    = render 'layouts/footer'
 
   = yield :scripts
   = include_analytics_js

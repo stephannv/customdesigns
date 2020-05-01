@@ -31,5 +31,6 @@ module AcCustomdesigns
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.hosts << '1f343935.ngrok.io'
   end
 end

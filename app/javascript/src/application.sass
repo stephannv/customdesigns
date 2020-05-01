@@ -21,6 +21,16 @@ $body-background-color: $background-color
 $navbar-height: 4.25rem
 $input-placeholder-color: $placeholder-color
 
+$footer-padding: 1.5rem 1.5rem 1.5rem
+$footer-background-color: $warning-color
+
+.app // fixed-footer
+  display: flex
+  min-height: calc(100vh - #{$navbar-height})
+  flex-direction: column
+
+.app-content // fixed-footer
+  flex: 1 0 auto
 
 a.navbar-item > .icon
   align-items: center !important

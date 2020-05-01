@@ -1,3 +1,13 @@
+// METATAGS
+- title = @custom_design.name
+- description = @custom_design.design_id
+- set_meta_tags 'og:title' => "#{@custom_design.name} - CustomDesigns.app"
+- set_meta_tags 'og:site_name' => 'CustomDesigns.app'
+- set_meta_tags 'og:image' => root_url.delete_suffix('/') + @custom_design.main_picture.image(:thumbnail).url
+- set_meta_tags 'og:description' => "Check out #{@custom_design.name} Custom Design"
+- set_meta_tags 'og:url' => custom_design_url(@custom_design)
+- set_meta_tags 'twitter:card' => 'summary_large_image'
+
 .columns.is-centered
   .column.is-8
     .box
