@@ -1,2 +1,52 @@
-h1 Home#index
-p Find me in app/views/home/index.html.slim
+- if @trending_custom_designs.exists?
+  .title Trending
+
+  .columns.is-multiline
+    - @trending_custom_designs.each do |custom_design|
+      .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+        = render 'custom_designs/custom_design_card', custom_design: custom_design
+
+- if @latest_custom_designs.exists?
+  .section
+    .title Latest
+
+    .columns.is-multiline
+      - @latest_custom_designs.each do |custom_design|
+        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+          = render 'custom_designs/custom_design_card', custom_design: custom_design
+
+- if @most_loved_custom_designs.exists?
+  .section
+    .columns.is-centered
+      .column.is-12
+        .title Most Loved
+
+    .columns.is-multiline
+      - @most_loved_custom_designs.each do |custom_design|
+        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+          = render 'custom_designs/custom_design_card', custom_design: custom_design
+
+- if @most_loved_creators.exists?
+  .section
+    .columns.is-centered
+      .column.is-12
+        .title Most Loved Creators
+
+    .columns.is-multiline
+      - @most_loved_creators.each do |creator|
+        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+          .card
+            .card-content
+              .title.is-4
+                = link_to creator.name, creator_path(creator)
+              .subtitle.is-6 = creator.creator_id
+
+            footer.card-footer
+              .card-footer-item
+                span.icon
+                  i.fas.fa-heart
+                = creator.hearts_count
+
+- content_for :scripts
+  = javascript_pack_tag 'bookmark'
+  = javascript_pack_tag 'heart'

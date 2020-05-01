@@ -12,7 +12,7 @@
           p.subtitle.is-6 = custom_design.design_id
         - if custom_design.creator.permanlink.present?
           = link_to creator_path(custom_design.creator) do
-            p.has-text-black.is-4 = custom_design.creator.name
+            p.has-text-weight-bold.has-text-dark.is-4 = custom_design.creator.name
 
     .content
       .tags.is-small
@@ -35,7 +35,7 @@
         = link_to edit_custom_design_path(custom_design), title: 'Edit', class: 'has-text-dark' do
           span.icon.is-small
             i.fas.fa-edit
-          | Edit
+          |  Edit
       p.card-footer-item.has-text-centered
         = link_to custom_design_path(custom_design),
           method: :delete,
@@ -44,4 +44,4 @@
           class: 'has-text-danger has-text-centered' do
           span.icon.is-small
             i.fas.fa-trash
-          | Destroy
+          |  Destroy
