@@ -5,16 +5,54 @@
 
       = form_for @creator, url: update_creator_path, method: :put  do |f|
         .field
+          = f.label :permanlink, class: 'label'
+          .control
+            = f.text_field :permanlink, class: 'input'
+            = errors_for(@creator, :permanlink)
+
+        .field
           = f.label :name, class: 'label'
           .control
             = f.text_field :name, class: 'input'
             = errors_for(@creator, :name)
 
         .field
-          = f.label :creator_id, class: 'label'
+          = f.label :creator_id, class: 'label' do
+            | Creator ID
+            span.has-text-weight-light
+              |  (optional)
           .control
             = f.text_field :creator_id, class: 'input'
             = errors_for(@creator, :creator_id)
+
+        .field
+          = f.label :island_name, class: 'label' do
+            | Island Name
+            span.has-text-weight-light
+              |  (optional)
+          .control
+            = f.text_field :island_name, class: 'input'
+            = errors_for(@creator, :island_name)
+
+        .field
+          = f.label :twitter_username, class: 'label' do
+            | Twitter Username
+            span.has-text-weight-light
+              |  (optional)
+          .control.has-icons-left
+            = f.text_field :twitter_username, class: 'input'
+            span.icon.is-left
+              i.fas.fa-at
+            = errors_for(@creator, :twitter_username)
+
+        .field
+          = f.label :friend_code, class: 'label' do
+            | Friend Code
+            span.has-text-weight-light
+              |  (optional)
+          .control
+            = f.text_field :friend_code, class: 'input'
+            = errors_for(@creator, :friend_code)
 
         .field
           .control

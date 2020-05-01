@@ -38,7 +38,7 @@ module ApplicationHelper
         remote = true
       end
     else
-      icon_class = 'fas'
+      icon_class = 'far'
       request_method = :get
       href = sign_in_path
       remote = false
@@ -67,7 +67,7 @@ module ApplicationHelper
         remote = true
       end
     else
-      icon_class = 'fas'
+      icon_class = 'far'
       request_method = :get
       href = sign_in_path
       remote = false

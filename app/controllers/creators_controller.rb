@@ -1,5 +1,11 @@
 class CreatorsController < ApplicationController
-  before_action :require_login
+  before_action :require_login, only: %i[edit update]
+
+  def show
+    @creator = Creator.find_by!(permanlink: params[:permanlink])
+    custom_design_scope = @creator.custom_designs.order(created_at: :desc)
+    @pagy, @custom_designs = pagy(custom_design_scope)
+  end
 
   def edit
     @creator = current_user.creator
@@ -9,7 +15,7 @@ class CreatorsController < ApplicationController
     @creator = current_user.creator
 
     if @creator.update(creator_params)
-      redirect_to root_path, success: 'Profile updated with success'
+      redirect_to creator_path(@creator), success: 'Profile updated with success'
     else
       render 'edit'
     end
@@ -18,6 +24,11 @@ class CreatorsController < ApplicationController
   private
 
   def creator_params
-    params.require(:creator).permit(:name, :creator_id)
+    sanitized_params = params.require(:creator).permit(
+      %i[permanlink name creator_id island_name twitter_username friend_code]
+    )
+    sanitized_params[:creator_id] = '' if sanitized_params[:creator_id] == 'MA-'
+    sanitized_params[:friend_code] = '' if sanitized_params[:friend_code] == 'SW-'
+    sanitized_params
   end
 end

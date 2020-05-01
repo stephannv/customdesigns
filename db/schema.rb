@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_29_201101) do
+ActiveRecord::Schema.define(version: 2020_05_01_101351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -53,7 +53,12 @@ ActiveRecord::Schema.define(version: 2020_04_29_201101) do
     t.string "creator_id", limit: 17
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.citext "permanlink"
+    t.string "island_name", limit: 20
+    t.string "friend_code", limit: 17
+    t.string "twitter_username", limit: 15
     t.index ["creator_id"], name: "index_creators_on_creator_id", unique: true, where: "(creator_id IS NOT NULL)"
+    t.index ["permanlink"], name: "index_creators_on_permanlink", unique: true
     t.index ["user_id"], name: "index_creators_on_user_id"
   end
 

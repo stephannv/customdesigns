@@ -3,7 +3,8 @@ class CustomDesign < ApplicationRecord
   # CONFIGS
   pg_search_scope :search_by_everything,
     against: %i[full_text_index],
-    using: { tsearch: { tsvector_column: :full_text_index } }
+    using: { tsearch: { tsvector_column: :full_text_index } },
+    ignoring: :accents
 
   # RELATIONS
   belongs_to :creator
@@ -42,15 +43,16 @@ class CustomDesign < ApplicationRecord
 
   def generate_full_text_index
     return unless new_record? || changed?
+
     connection = self.class.connection
     sql = <<-SQL
       SELECT
-        setweight(to_tsvector('simple', #{connection.quote(name)}), 'A') ||
-        setweight(to_tsvector('simple', #{connection.quote(design_id)}), 'A') ||
-        setweight(to_tsvector('simple', #{connection.quote(creator.name)}), 'B') ||
-        setweight(to_tsvector('simple', #{connection.quote(creator.creator_id)}), 'B') ||
-        setweight(to_tsvector('simple', #{connection.quote(categories.map(&:name).join(' '))}), 'B') ||
-        setweight(to_tsvector('simple', #{connection.quote(tags.map(&:name).join(' '))}), 'B') AS full_text_index
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(name)})), 'A') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(design_id)})), 'A') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(creator.name)})), 'B') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(creator.creator_id)})), 'B') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(categories.map(&:name).join(' '))})), 'B') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(tags.map(&:name).join(' '))})), 'B') AS full_text_index
     SQL
 
     result = self.class.connection.execute(self.class.sanitize_sql(sql))

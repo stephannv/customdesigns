@@ -8,11 +8,13 @@
         .column.is-9
           .title.is-size-4-mobile
             = @custom_design.name
-            .subtitle.is-marginless = @custom_design.design_id
+            .subtitle = @custom_design.design_id
             - if @custom_design.creator.name.present?
               .subtitle
                 | by
-                =< @custom_design.creator.name
+                - if @custom_design.creator.permanlink.present?
+                  =< link_to @custom_design.creator.name, creator_path(@custom_design.creator)
+
                 - if @custom_design.creator.creator_id.present?
                   =< '(' + @custom_design.creator.creator_id + ')'
 
@@ -28,7 +30,7 @@
               / don't remove .level-left
 
             .level-right
-              - if signed_in? && custom_design.creator == current_creator
+              - if signed_in? && @custom_design.creator == current_creator
                 = link_to edit_custom_design_path(@custom_design), title: 'Edit', class: 'level-item has-text-dark' do
                   span.icon
                     i.fas.fa-edit

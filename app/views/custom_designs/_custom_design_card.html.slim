@@ -10,9 +10,8 @@
         = link_to custom_design_path(custom_design) do
           p.title.is-4 = custom_design.name
           p.subtitle.is-6 = custom_design.design_id
-        - if custom_design.creator.present?
-
-          = link_to root_path do
+        - if custom_design.creator.permanlink.present?
+          = link_to creator_path(custom_design.creator) do
             p.has-text-black.is-4 = custom_design.creator.name
 
     .content

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'search', to: 'search#index', as: :search
 
+  get 'creator/:permanlink', to: 'creators#show', as: :creator
   get 'me/edit', to: 'creators#edit', as: :edit_creator
   put 'me', to: 'creators#update', as: :update_creator
 

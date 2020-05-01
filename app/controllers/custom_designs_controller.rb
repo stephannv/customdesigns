@@ -3,13 +3,7 @@ class CustomDesignsController < ApplicationController
   before_action -> { validate_recaptcha!(token: params[:recaptcha_token], action: 'upload') }, only: %i[create update]
 
   def index
-    scope = current_creator
-      .custom_designs
-      .joins(:main_picture)
-      .left_joins(:categories, :tags, :bookmarks, :hearts)
-      .includes(:main_picture, :categories, :tags, :bookmarks, :hearts)
-      .order(created_at: :desc)
-      .distinct
+    scope = current_creator.custom_designs
 
     @pagy, @custom_designs = pagy(scope)
   end

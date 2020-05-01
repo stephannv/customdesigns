@@ -1,9 +1,7 @@
 .columns.is-centered.is-multiline.is-mobile
   .column.is-12
     .title My Bookmarks
-    .subtitle
-      = @pagy.count
-      |  Custom Designs
+    .subtitle = pluralize(@pagy.count, 'Custom Design')
 .columns.is-multiline
   - if @custom_designs.exists?
     - @custom_designs.each do |custom_design|

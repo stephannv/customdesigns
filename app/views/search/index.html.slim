@@ -1,8 +1,7 @@
 .columns.is-centered
   .column.is-12
     .title Results
-    .subtitle
-      =< pluralize(@pagy.count, 'Custom Design')
+    .subtitle = pluralize(@pagy.count, 'Custom Design')
 
 .columns.is-multiline
   - if @custom_designs.exists?
