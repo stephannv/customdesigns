@@ -10,7 +10,7 @@ require('channels')
 require('cleave.js')
 require('./layout')
 
-import '../src/application.sass'
+import '../stylesheets/application.sass'
 import '@yaireo/tagify/dist/tagify.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 

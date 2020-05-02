@@ -1,14 +1,14 @@
 doctype html
 html.has-navbar-fixed-top
   head
-    / title CustomDesigns.app
     = csrf_meta_tags
     = csp_meta_tag
 
     meta(name='viewport' content='width=device-width, initial-scale=1')
 
-    = stylesheet_link_tag 'application', media: 'all'
     = javascript_pack_tag 'application'
+    = stylesheet_pack_tag 'application'
+    = stylesheet_link_tag 'application', media: 'all'
     = yield :recaptcha_js
 
     = display_meta_tags site: 'CustomDesigns.app'
