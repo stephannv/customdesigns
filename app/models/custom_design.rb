@@ -42,8 +42,6 @@ class CustomDesign < ApplicationRecord
   before_save :generate_full_text_index
 
   def generate_full_text_index
-    return unless new_record? || changed?
-
     connection = self.class.connection
     sql = <<-SQL
       SELECT

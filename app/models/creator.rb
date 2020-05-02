@@ -21,6 +21,8 @@ class Creator < ApplicationRecord
   validates :friend_code, format: { with: /\ASW(?:-(?:\d){4}){3}\z/ }, allow_blank: true
   validates :island_name, format: { with: /\A^[a-zA-Z0-9_ ]*\z/ }, allow_blank: true
 
+  after_save :generate_custom_designs_full_text_index
+
   def bookmarked?(custom_design)
     bookmarked_custom_designs.exists?(id: custom_design.id)
   end
@@ -31,5 +33,13 @@ class Creator < ApplicationRecord
 
   def to_param
     permanlink
+  end
+
+  private
+
+  def generate_custom_designs_full_text_index
+    if saved_change_to_name? or saved_change_to_creator_id?
+      custom_designs.each(&:save)
+    end
   end
 end

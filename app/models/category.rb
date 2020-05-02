@@ -14,7 +14,17 @@ class Category < ApplicationRecord
 
   validates :name, length: { maximum: 20 }
 
+  after_save :generate_custom_designs_full_text_index
+
   def should_generate_new_friendly_id?
     name_changed? || super
+  end
+
+  private
+
+  def generate_custom_designs_full_text_index
+    if saved_change_to_name?
+      custom_designs.each(&:save)
+    end
   end
 end
