@@ -15,7 +15,11 @@ class CreatorsController < ApplicationController
     @creator = current_user.creator
 
     if @creator.update(creator_params)
-      redirect_to creator_path(@creator), success: 'Profile updated with success'
+      if @creator.permanlink.present?
+        redirect_to creator_path(@creator), success: 'Profile updated with success'
+      else
+        redirect_to root_path, success: 'Profile updated with success'
+      end
     else
       render 'edit'
     end
