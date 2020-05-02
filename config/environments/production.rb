@@ -109,4 +109,15 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: Rails.application.credentials.mail[:address],
+    port: Rails.application.credentials.mail[:port],
+    domain: Rails.application.credentials.mail[:domain],
+    user_name: Rails.application.credentials.mail[:user_name],
+    password: Rails.application.credentials.mail[:password],
+    authentication: Rails.application.credentials.mail[:authentication],
+    enable_starttls_auto: true
+  }
 end
