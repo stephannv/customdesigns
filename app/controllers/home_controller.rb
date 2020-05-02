@@ -15,6 +15,7 @@ class HomeController < ApplicationController
       .select('creators.*, sum(custom_designs.hearts_count) as hearts_count')
       .joins(:custom_designs)
       .group('creators.id')
+      .where.not(permanlink: nil)
       .order('sum(custom_designs.hearts_count) DESC')
       .limit(12)
   end
