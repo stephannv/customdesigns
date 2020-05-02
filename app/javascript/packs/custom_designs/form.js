@@ -60,7 +60,7 @@ const unaccent = (string) => {
 const input = document.getElementById('custom_design_tags')
 const tagify = new Tagify(input, {
   whitelist: [],
-  pattern: /^[a-zA-ZÀ-ú0-9_. ]*$/,
+  pattern: /^[a-zA-ZÀ-ú0-9_. ]{0,20}$/,
   skipInvalid: true,
   maxTags: 5,
   dropdown: { fuzzySearch: true }

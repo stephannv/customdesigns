@@ -86,9 +86,9 @@ class CustomDesignsController < ApplicationController
     tag_names = JSON.parse(raw_tags).flat_map(&:values).reject(&:blank?)
     tags = tag_names.to_a.first(5).map do |name|
       tag = Tag.find_by('lower(unaccent(name)) = lower(unaccent(?))', name.strip)
-      tag || Tag.create!(name: name.strip)
+      tag || Tag.create!(name: name.strip) rescue nil
     end
-    tags.map(&:id)
+    tags.compact.map(&:id)
   rescue => e
     []
   end

@@ -21,9 +21,9 @@
             .subtitle = @custom_design.design_id
             - if @custom_design.creator.name.present?
               .subtitle
-                | by
                 - if @custom_design.creator.permanlink.present?
-                  =< link_to @custom_design.creator.name, creator_path(@custom_design.creator)
+                  span.has-text-weight-bold.has-text-dark
+                    = link_to @custom_design.creator.name, creator_path(@custom_design.creator)
 
                 - if @custom_design.creator.creator_id.present?
                   =< '(' + @custom_design.creator.creator_id + ')'
