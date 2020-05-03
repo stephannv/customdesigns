@@ -8,6 +8,12 @@
 - set_meta_tags 'og:url' => root_url
 - set_meta_tags 'twitter:card' => 'summary_large_image'
 
+.custom-message.is-hidden-desktop
+  .container
+    = link_to new_custom_design_path do
+      .custom-message-content.has-text-weight-bold
+        | Submit your own custom designs here
+
 - if @trending_custom_designs.exists?
   .home-section
     .title Trending
