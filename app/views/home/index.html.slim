@@ -14,21 +14,21 @@
       .custom-message-content.has-text-weight-bold
         | Submit your own custom designs here
 
-- if @trending_custom_designs.exists?
-  .home-section
-    .title Trending
-
-    .columns.is-multiline
-      - @trending_custom_designs.each do |custom_design|
-        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-          = render 'custom_designs/custom_design_card', custom_design: custom_design
-
 - if @latest_custom_designs.exists?
   .home-section
     .title Latest
 
     .columns.is-multiline
       - @latest_custom_designs.each do |custom_design|
+        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+          = render 'custom_designs/custom_design_card', custom_design: custom_design
+
+- if @trending_custom_designs.exists?
+  .home-section
+    .title Trending
+
+    .columns.is-multiline
+      - @trending_custom_designs.each do |custom_design|
         .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
           = render 'custom_designs/custom_design_card', custom_design: custom_design
 
