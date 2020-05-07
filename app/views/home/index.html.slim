@@ -1,69 +1,18 @@
 // METATAGS
-- title 'Explore'
-- description 'Explore and Share Animal Crossing Custom Designs with the World'
+- title 'Home'
+- description 'New Animal Crossing Custom Designs everyday'
 - set_meta_tags 'og:title' => 'CustomDesigns.app'
 - set_meta_tags 'og:site_name' => 'CustomDesigns.app'
 - set_meta_tags 'og:image' => image_url('preview.png')
-- set_meta_tags 'og:description' => 'Explore and Share Animal Crossing Custom Designs with the World'
+- set_meta_tags 'og:description' => 'New Animal Crossing Custom Designs everyday'
 - set_meta_tags 'og:url' => root_url
 - set_meta_tags 'twitter:card' => 'summary_large_image'
 
-.custom-message.is-hidden-desktop
-  .container
-    = link_to new_custom_design_path do
-      .custom-message-content.has-text-weight-bold
-        | Submit your own custom designs here
+.title Latest
+.columns.is-multiline
+  - @custom_designs.each do |custom_design|
+    .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+      = render 'custom_designs/custom_design_card', custom_design: custom_design
 
-- if @latest_custom_designs.exists?
-  .home-section
-    .title Latest
-
-    .columns.is-multiline
-      - @latest_custom_designs.each do |custom_design|
-        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-          = render 'custom_designs/custom_design_card', custom_design: custom_design
-
-- if @trending_custom_designs.exists?
-  .home-section
-    .title Trending
-
-    .columns.is-multiline
-      - @trending_custom_designs.each do |custom_design|
-        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-          = render 'custom_designs/custom_design_card', custom_design: custom_design
-
-- if @most_loved_custom_designs.exists?
-  .home-section
-    .columns.is-centered
-      .column.is-12
-        .title Most Loved
-
-    .columns.is-multiline
-      - @most_loved_custom_designs.each do |custom_design|
-        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-          = render 'custom_designs/custom_design_card', custom_design: custom_design
-
-- if @most_loved_creators.exists?
-  .home-section
-    .columns.is-centered
-      .column.is-12
-        .title Most Loved Creators
-
-    .columns.is-multiline
-      - @most_loved_creators.each do |creator|
-        .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
-          .card
-            .card-content
-              .title.is-4
-                = link_to creator.name, creator_path(creator)
-              .subtitle.is-6 = creator.creator_id
-
-            footer.card-footer
-              .card-footer-item
-                span.icon
-                  i.fas.fa-heart
-                = creator.hearts_count
-
-- content_for :scripts
-  = javascript_pack_tag 'bookmark'
-  = javascript_pack_tag 'heart'
+  .column.is-12
+    = render 'layouts/pagination', pagy: @pagy

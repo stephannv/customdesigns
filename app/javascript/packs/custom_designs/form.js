@@ -28,6 +28,19 @@ const cleave = new Cleave(designIdField, {
 
 cleave.onInput(designIdValue)
 
+// CREATOR ID INPUT
+const creatorIdField = document.getElementById('custom_design_creator_id')
+const creatorIdValue = creatorIdField.value
+
+const creatorIdCleave = new Cleave(creatorIdField, {
+  prefix: 'MA',
+  delimiter: '-',
+  blocks: [2, 4, 4, 4],
+  numericOnly: true
+})
+
+creatorIdCleave.onInput(creatorIdValue)
+
 // CATEGORIES SELECT
 const categoriesSelect = document.getElementById('custom_design_category_ids')
 categoriesSelect.size = categoriesSelect.length
