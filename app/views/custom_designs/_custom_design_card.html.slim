@@ -10,32 +10,44 @@
         = link_to custom_design_path(custom_design) do
           p.title.is-4 = custom_design.name
           p.subtitle.is-6 = custom_design.design_id
-        - if custom_design.creator.permanlink.present?
-          = link_to creator_path(custom_design.creator) do
-            p.has-text-weight-bold.has-text-dark.is-4 = custom_design.creator.name
+
+        = link_to creator_path(custom_design.creator_id) do
+          p.has-text-weight-bold.has-text-dark.is-4 = custom_design.creator_name
 
     .content
       .tags.is-small
         - custom_design.categories.each do |category|
-          span.tag.is-dark.has-text-weight-semibold = category.name
+          span.tag.is-dark.has-text-weight-semibold
+            = link_to category.name, search_path(q: category.name), class: 'has-text-white'
 
         - custom_design.tags.each do |tag|
-          span.tag.is-light = tag.name
+          span.tag.is-light
+            = link_to tag.name, search_path(q: tag.name), class: 'has-text-black'
 
-  .card-footer
-    p.card-footer-item.has-text-centered
-      = heart_button(current_creator, custom_design, classes: 'has-text-primary')
-
-    p.card-footer-item.has-text-centered
-      = bookmark_button(current_creator, custom_design, classes: 'has-text-warning')
-
-  - if signed_in? && custom_design.creator == current_creator
+  - if current_admin.present?
     .card-footer
+      - if custom_design.published?
+        p.card-footer-item.has-text-centered
+          = link_to unpublish_custom_design_path(custom_design),
+            title: 'Click to unpublish',
+            class: 'has-text-dark',
+            method: :put do
+            span.icon.is-small
+              i.fas.fa-toggle-on
+      - else
+        p.card-footer-item.has-text-centered
+          = link_to publish_custom_design_path(custom_design),
+            title: 'Click to publish',
+            class: 'has-text-danger',
+            method: :put do
+            span.icon.is-small
+              i.fas.fa-toggle-off
+
       p.card-footer-item.has-text-centered
         = link_to edit_custom_design_path(custom_design), title: 'Edit', class: 'has-text-dark' do
           span.icon.is-small
             i.fas.fa-edit
-          |  Edit
+
       p.card-footer-item.has-text-centered
         = link_to custom_design_path(custom_design),
           method: :delete,
@@ -44,4 +56,3 @@
           class: 'has-text-danger has-text-centered' do
           span.icon.is-small
             i.fas.fa-trash
-          |  Destroy

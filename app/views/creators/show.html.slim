@@ -1,52 +1,25 @@
 // METATAGS
-- title = @creator.name
-- description "Check out #{@creator.name}'s Custom Designs"
-- set_meta_tags 'og:title' => "#{@creator.name} - CustomDesigns.app"
+- custom_design = @custom_designs.first
+- creator_name = custom_design.creator_name
+- creator_id = custom_design.creator_id
+
+- title = creator_name
+- description "Check out #{creator_name}'s Custom Designs"
+- set_meta_tags 'og:title' => "#{creator_name} - CustomDesigns.app"
 - set_meta_tags 'og:site_name' => 'CustomDesigns.app'
 - set_meta_tags 'og:image' => image_url('preview.png')
-- set_meta_tags 'og:description' => "Check out #{@creator.name}'s Animal Crossing Custom Designs"
-- set_meta_tags 'og:url' => creator_url(@creator)
+- set_meta_tags 'og:description' => "Check out #{creator_name}'s Animal Crossing Custom Designs"
+- set_meta_tags 'og:url' => creator_url(creator_id)
 - set_meta_tags 'twitter:card' => 'summary_large_image'
 
-.columns.is-centered.is-multiline
-  .column.is-one-third-widescreen.is-full-tablet
-    .title Creator
-    .box
-      .title.is-size-4-mobile
-        = @creator.name
-        .subtitle.is-marginless = @creator.creator_id
-        - if @creator.island_name.present?
-          .subtitle
-            | from
-            =< @creator.island_name
 
-        - if @creator.twitter_username.present?
-          .subtitle
-            span.icon
-              i.fab.fa-twitter
-            =< link_to "@#{@creator.twitter_username}", "https://twitter.com/#{@creator.twitter_username}"
+.title = "#{creator_name} | #{creator_id}"
+.subtitle = pluralize(@pagy.count, 'Custom Design')
 
-        - if @creator.friend_code.present?
-          .subtitle = @creator.friend_code
+.columns.is-multiline
+  - @custom_designs.each do |custom_design|
+    .column.is-one-quarter-widescreen.is-one-third-desktop.is-half-tablet.is-full-mobile
+      = render 'custom_designs/custom_design_card', custom_design: custom_design
 
-      - if @creator == current_creator
-        = link_to edit_creator_path, class: 'button is-dark is-fullwidth' do
-          span.icon
-            i.fas.fa-edit
-          span Edit Profile
-
-  .column.is-two-thirds-widescreen.is-full-tablet
-    .title Custom Designs
-    .subtitle = pluralize(@pagy.count, 'Custom Design')
-    .columns.is-multiline
-      - if @custom_designs.exists?
-        - @custom_designs.each do |custom_design|
-          .column.is-one-third-fullhd.is-half-widescreen.is-half-tablet.is-full-mobile
-            = render 'custom_designs/custom_design_card', custom_design: custom_design
-
-        .column.is-12
-          == render 'layouts/pagination', pagy: @pagy
-
-- content_for :scripts
-  = javascript_pack_tag 'bookmark'
-  = javascript_pack_tag 'heart'
+  .column.is-12
+    = render 'layouts/pagination', pagy: @pagy

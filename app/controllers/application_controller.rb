@@ -6,11 +6,17 @@ class ApplicationController < ActionController::Base
 
   before_action :set_raven_context
 
+  helper_method :current_admin
+  def current_admin
+    current_user if current_user.present? && current_user.admin?
+  end
+
   private
 
-  helper_method :current_creator
-  def current_creator
-    current_user.try(:creator)
+  def require_admin
+    unless current_admin.present?
+      deny_access(I18n.t("flashes.failure_when_not_signed_in"))
+    end
   end
 
   def validate_recaptcha!(token:, action:)

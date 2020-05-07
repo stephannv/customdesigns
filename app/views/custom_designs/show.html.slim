@@ -19,32 +19,31 @@
           .title.is-size-4-mobile
             = @custom_design.name
             .subtitle = @custom_design.design_id
-            - if @custom_design.creator.name.present?
-              .subtitle
-                - if @custom_design.creator.permanlink.present?
-                  span.has-text-weight-bold.has-text-dark
-                    = link_to @custom_design.creator.name, creator_path(@custom_design.creator)
 
-                - if @custom_design.creator.creator_id.present?
-                  =< '(' + @custom_design.creator.creator_id + ')'
+            .subtitle
+              span.has-text-weight-bold
+                = link_to @custom_design.creator_name, creator_path(@custom_design.creator_id), class: 'has-text-dark'
+
+              =< '(' + @custom_design.creator_id + ')'
 
           .tags
             - @custom_design.categories.each do |category|
-              span.tag.is-dark.has-text-weight-semibold = category.name
+              span.tag.is-dark.has-text-weight-semibold
+                = link_to category.name, search_path(q: category.name), class: 'has-text-white'
 
             - @custom_design.tags.each do |tag|
-              span.tag.is-light = tag.name
+              span.tag.is-light
+                = link_to tag.name, search_path(q: tag.name), class: 'has-text-black'
 
           nav.level.is-mobile
             .level-left
               / don't remove .level-left
 
             .level-right
-              - if signed_in? && @custom_design.creator == current_creator
+              - if current_admin.present?
                 = link_to edit_custom_design_path(@custom_design), title: 'Edit', class: 'level-item has-text-dark' do
                   span.icon
                     i.fas.fa-edit
-                  | Edit
 
                 = link_to custom_design_path(@custom_design),
                   method: :delete,
@@ -53,11 +52,21 @@
                   class: 'has-text-danger level-item' do
                   span.icon
                     i.fas.fa-trash
-                  | Destroy
 
-              = heart_button(current_creator, @custom_design, classes: 'level-item has-text-primary')
-
-              = bookmark_button(current_creator, @custom_design, classes: 'level-item has-text-warning')
+                - if @custom_design.published?
+                  = link_to unpublish_custom_design_path(@custom_design),
+                    title: 'Click to unpublish',
+                    class: 'level-item has-text-dark',
+                    method: :put do
+                    span.icon
+                      i.fas.fa-toggle-on
+                - else
+                  = link_to publish_custom_design_path(@custom_design),
+                    title: 'Click to publish',
+                    class: 'level-item has-text-danger',
+                    method: :put do
+                    span.icon
+                      i.fas.fa-toggle-off
 
       - if @custom_design.example_picture.present?
         .column

@@ -1,26 +1,27 @@
 class CustomDesignsController < ApplicationController
-  before_action :require_login, only: %i[index new create edit update destroy]
-  before_action -> { validate_recaptcha!(token: params[:recaptcha_token], action: 'upload') }, only: %i[create update]
+  before_action :require_admin, only: %i[unpublished edit update destroy publish unpublish]
+  before_action :check_recaptcha, only: :create
 
-  def index
-    scope = current_creator.custom_designs
+  def unpublished
+    scope = CustomDesign.unpublished
 
     @pagy, @custom_designs = pagy(scope)
   end
 
   def show
-    @custom_design = CustomDesign.left_joins(:categories).find(params[:id])
+    @custom_design = find_custom_design
   end
 
   def new
-    @custom_design = current_creator.custom_designs.new
+    @custom_design = CustomDesign.new
     @custom_design.build_main_picture
     @custom_design.build_example_picture
     load_categories
   end
 
   def create
-    @custom_design = current_creator.custom_designs.new(custom_design_params)
+    @custom_design = CustomDesign.new(custom_design_params)
+    @custom_design.published = current_admin.present?
 
     if @custom_design.save
       redirect_to @custom_design, success: 'Custom design created with success'
@@ -32,13 +33,13 @@ class CustomDesignsController < ApplicationController
   end
 
   def edit
-    @custom_design = current_creator.custom_designs.find(params[:id])
+    @custom_design = find_custom_design
     @custom_design.build_example_picture if @custom_design.example_picture.blank?
     load_categories
   end
 
   def update
-    @custom_design = current_creator.custom_designs.find(params[:id])
+    @custom_design = find_custom_design
 
     if @custom_design.update(custom_design_params)
       redirect_to @custom_design, success: 'Custom design updated with success'
@@ -50,7 +51,7 @@ class CustomDesignsController < ApplicationController
   end
 
   def destroy
-    @custom_design = current_creator.custom_designs.find(params[:id])
+    @custom_design = CustomDesign.find_by!(design_id: params[:design_id])
 
     if @custom_design.destroy!
       options = { success: 'Custom design destroyed with success' }
@@ -61,7 +62,37 @@ class CustomDesignsController < ApplicationController
     redirect_to custom_designs_path, options
   end
 
+  def publish
+    @custom_design = find_custom_design
+
+    if @custom_design.update(published: true)
+      redirect_to @custom_design, success: 'Custom Design was published'
+    else
+      redirect_back fallback_location: @custom_design, error: 'An error occurred'
+    end
+  end
+
+  def unpublish
+    @custom_design = find_custom_design
+
+    if @custom_design.update(published: false)
+      redirect_to @custom_design, success: 'Custom Design was unpublished'
+    else
+      redirect_back fallback_location: @custom_design, error: 'An error occurred'
+    end
+  end
+
   private
+  def find_custom_design
+    CustomDesign.find_by!(design_id: params[:design_id])
+  end
+
+  def check_recaptcha
+    return if current_admin.present?
+
+    validate_recaptcha!(token: params[:recaptcha_token], action: 'upload')
+  end
+
   def load_categories
     @categories = Category.all
   end
@@ -72,13 +103,14 @@ class CustomDesignsController < ApplicationController
     sanitized_params = params.require(:custom_design).permit(
       :name,
       :design_id,
+      :creator_name,
+      :creator_id,
       main_picture_attributes: %i[id image],
       example_picture_attributes: %i[id image],
       category_ids: []
     ).merge(tag_ids: handle_tag_ids(raw_tags))
 
     sanitized_params[:category_ids].reject!(&:blank?)
-
     sanitized_params
   end
 

@@ -2,5 +2,16 @@
   .column.is-6
     .box
       .title New Custom Design
+      - if current_admin.blank?
+        .content
+          p Thanks for submitting a custom design. Some useful informations:
+          ul
+            li Don't do any cropping. We do it for you.
+            li
+              | Your custom design image should be like
+              =<  link_to 'this', asset_pack_path('media/images/custom-design-example.jpg'), target: '_blank'
+              | .
+            li Use pictures shared directly from Nintendo Switch. It has the perfect resolution for our cropping.
+            li Your custom design will be reviewed by us before being published.
 
       = render 'form', custom_design: @custom_design

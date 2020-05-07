@@ -1,24 +1,24 @@
 Rails.application.routes.draw do
-  get 'home/index'
-  get 'search', to: 'search#index', as: :search
+  get '/home/index'
+  get '/search', to: 'search#index', as: :search
 
-  get 'creator/:permanlink', to: 'creators#show', as: :creator
-  get 'me/edit', to: 'creators#edit', as: :edit_creator
-  put 'me', to: 'creators#update', as: :update_creator
+  get '/creator/:creator_id', to: 'creators#show', as: :creator
+  get '/design/:design_id', to: 'custom_designs#show', as: :custom_design
+  get '/design/:design_id/edit', to: 'custom_designs#edit', as: :edit_custom_design
+  patch '/design/:design_id', to: 'custom_designs#update'
 
-  resources :custom_designs
-
-  resources :tags, only: :index
-
-  resources :bookmarks, only: :index do
+  resources :custom_designs, only: %i[new create destroy], param: :design_id do
     collection do
-      post '/:custom_design_id', to: 'bookmarks#create', as: :create
-      delete '/:custom_design_id', to: 'bookmarks#destroy', as: :destroy
+      get '/unpublished', action: 'unpublished', as: :unpublished
+    end
+
+    member do
+      put '/publish', action: 'publish', as: :publish
+      put '/unpublish', action: 'unpublish', as: :unpublish
     end
   end
 
-  post '/hearts/:custom_design_id', to: 'hearts#create', as: :create_hearts
-  delete '/hearts/:custom_design_id', to: 'hearts#destroy', as: :destroy_hearts
+  resources :tags, only: :index
 
   root to: 'home#index'
 end

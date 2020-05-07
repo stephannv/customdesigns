@@ -24,64 +24,6 @@ module ApplicationHelper
     end
   end
 
-  def bookmark_button(creator, custom_design, classes: '')
-    if signed_in?
-      if creator.bookmarked?(custom_design)
-        request_method = :delete
-        icon_class = 'fas'
-        href = destroy_bookmarks_path(custom_design)
-        remote = true
-      else
-        request_method = :post
-        icon_class = 'far'
-        href = create_bookmarks_path(custom_design)
-        remote = true
-      end
-    else
-      icon_class = 'far'
-      request_method = :get
-      href = sign_in_path
-      remote = false
-    end
-
-    render 'custom_designs/bookmark_button',
-      custom_design: custom_design,
-      request_method: request_method,
-      classes: classes,
-      icon_class: icon_class,
-      href: href,
-      remote: remote
-  end
-
-  def heart_button(creator, custom_design, classes: '')
-    if signed_in?
-      if creator.loved?(custom_design)
-        request_method = :delete
-        icon_class = 'fas'
-        href = destroy_hearts_path(custom_design)
-        remote = true
-      else
-        request_method = :post
-        icon_class = 'far'
-        href = create_hearts_path(custom_design)
-        remote = true
-      end
-    else
-      icon_class = 'far'
-      request_method = :get
-      href = sign_in_path
-      remote = false
-    end
-
-    render 'custom_designs/heart_button',
-      custom_design: custom_design,
-      request_method: request_method,
-      classes: classes,
-      icon_class: icon_class,
-      href: href,
-      remote: remote
-  end
-
   def include_recaptcha_js
     return unless Rails.env.production?
 
@@ -95,7 +37,7 @@ module ApplicationHelper
   end
 
   def execute_recaptcha(action)
-    return unless Rails.env.production?
+    return if !Rails.env.production? || current_admin.present?
 
     recaptcha_id = "recaptcha_token_#{SecureRandom.hex(10)}"
     site_key = Rails.application.credentials.recaptcha[:site_key]
