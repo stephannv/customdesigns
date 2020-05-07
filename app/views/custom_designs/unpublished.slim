@@ -1,7 +1,8 @@
 .columns.is-centered
   .column.is-12
-    .title My Custom Designs
+    .title Unpublished Custom Designs
     .subtitle = pluralize(@pagy.count, 'Custom Design')
+
 .columns.is-multiline
   - if @custom_designs.exists?
     - @custom_designs.each do |custom_design|
@@ -16,11 +17,5 @@
       .box.has-text-centered
         br
         .subtitle
-          | You don't have any custom designs published yet. Create one
-          =< link_to 'here', new_custom_design_path
-          | .
+          | There aren't unpublished custom designs
         p
-
-- content_for :scripts
-  = javascript_pack_tag 'bookmark'
-  = javascript_pack_tag 'heart'

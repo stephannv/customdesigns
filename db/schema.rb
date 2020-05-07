@@ -10,23 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_01_101351) do
+ActiveRecord::Schema.define(version: 2020_05_06_204235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "unaccent"
-
-  create_table "bookmarks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "creator_id", null: false
-    t.uuid "custom_design_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["creator_id", "custom_design_id"], name: "index_bookmarks_on_creator_id_and_custom_design_id", unique: true
-    t.index ["creator_id"], name: "index_bookmarks_on_creator_id"
-    t.index ["custom_design_id"], name: "index_bookmarks_on_custom_design_id"
-  end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 20, null: false
@@ -47,47 +37,23 @@ ActiveRecord::Schema.define(version: 2020_05_01_101351) do
     t.index ["custom_design_id"], name: "index_categorizations_on_custom_design_id"
   end
 
-  create_table "creators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.string "name", limit: 10
-    t.string "creator_id", limit: 17
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.citext "permanlink"
-    t.string "island_name", limit: 20
-    t.string "friend_code", limit: 17
-    t.string "twitter_username", limit: 15
-    t.index ["creator_id"], name: "index_creators_on_creator_id", unique: true, where: "(creator_id IS NOT NULL)"
-    t.index ["permanlink"], name: "index_creators_on_permanlink", unique: true
-    t.index ["user_id"], name: "index_creators_on_user_id"
-  end
-
   create_table "custom_designs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "creator_id", null: false
     t.uuid "main_picture_id", null: false
     t.uuid "example_picture_id"
     t.string "name", limit: 20, null: false
     t.string "design_id", limit: 17, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "bookmarks_count", default: 0
-    t.integer "hearts_count", default: 0
     t.tsvector "full_text_index"
+    t.boolean "published", default: false
+    t.string "creator_name", limit: 10, null: false
+    t.string "creator_id", limit: 17, null: false
     t.index ["creator_id"], name: "index_custom_designs_on_creator_id"
     t.index ["design_id"], name: "index_custom_designs_on_design_id", unique: true
     t.index ["example_picture_id"], name: "index_custom_designs_on_example_picture_id"
     t.index ["full_text_index"], name: "index_custom_designs_on_full_text_index", using: :gin
     t.index ["main_picture_id"], name: "index_custom_designs_on_main_picture_id"
-  end
-
-  create_table "hearts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "creator_id", null: false
-    t.uuid "custom_design_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["creator_id", "custom_design_id"], name: "index_hearts_on_creator_id_and_custom_design_id", unique: true
-    t.index ["creator_id"], name: "index_hearts_on_creator_id"
-    t.index ["custom_design_id"], name: "index_hearts_on_custom_design_id"
+    t.index ["published"], name: "index_custom_designs_on_published"
   end
 
   create_table "pictures", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -122,20 +88,15 @@ ActiveRecord::Schema.define(version: 2020_05_01_101351) do
     t.string "remember_token", limit: 128, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
-  add_foreign_key "bookmarks", "creators"
-  add_foreign_key "bookmarks", "custom_designs"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "custom_designs"
-  add_foreign_key "creators", "users"
-  add_foreign_key "custom_designs", "creators"
   add_foreign_key "custom_designs", "pictures", column: "example_picture_id"
   add_foreign_key "custom_designs", "pictures", column: "main_picture_id"
-  add_foreign_key "hearts", "creators"
-  add_foreign_key "hearts", "custom_designs"
   add_foreign_key "taggings", "custom_designs"
   add_foreign_key "taggings", "tags"
 end

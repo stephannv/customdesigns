@@ -1,6 +1,9 @@
 nav.navbar.is-primary.is-fixed-top(role='navigation' aria-label='main navigation')
   .navbar-brand
-    = link_to root_path, class: 'navbar-item has-text-weight-bold is-size-5' do
+    .container.is-hidden-desktop
+      = render 'layouts/navbar_search', classes: ''
+
+    = link_to root_path, class: 'navbar-item is-hidden-touch' do
       = image_tag asset_pack_path('media/images/logo.svg')
 
     a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarMenu')
@@ -8,49 +11,41 @@ nav.navbar.is-primary.is-fixed-top(role='navigation' aria-label='main navigation
       span(aria-hidden='true')
       span(aria-hidden='true')
 
+
+  .container.is-hidden-touch
+    = render 'layouts/navbar_search', classes: ''
   #navbarMenu.navbar-menu
-    = render 'layouts/navbar_search'
 
     .navbar-end
       = link_to root_path, class: 'navbar-item has-text-weight-semibold' do
         span.icon
-          i class="fas fa-th"
-        | Explore
+          i.fas.fa-home
+        | Home
 
       = link_to new_custom_design_path, class: 'navbar-item has-text-weight-semibold' do
         span.icon
-          i.fas.fa-plus
-        | Publish Custom Design
+          i.fas.fa-upload
+        | Submit Custom Design
 
-      - if signed_in?
+      = link_to 'https://www.patreon.com/stephann?fan_landing=true',
+        class: 'navbar-item has-text-weight-semibold',
+        target: '_blank' do
+        span.icon
+          i.fas.fa-heart
+        | Support me
+
+      - if current_admin.present?
         .navbar-item.has-dropdown.is-hoverable
-          a.navbar-link.has-text-weight-semibold = current_user.creator.name || current_user.email
+          a.navbar-link.has-text-weight-semibold Admin
 
           .navbar-dropdown.is-right
-            = link_to custom_designs_path, class: 'navbar-item' do
+            = link_to unpublished_custom_designs_path, class: 'navbar-item' do
               span.icon
-                i.fas.fa-pencil-ruler
-              | My Custom Designs
-
-            = link_to bookmarks_path, class: 'navbar-item ' do
-              span.icon
-                i.fas.fa-bookmark
-              | My Bookmarks
-
-            - profile_url = current_creator.try(:permanlink) ? creator_path(current_creator) : edit_creator_path
-            = link_to profile_url, class: 'navbar-item' do
-              span.icon
-                i.fas.fa-user
-              | My Profile
+                i.fas.fa-toggle-off
+              | Unpublished Custom Design
 
             hr.navbar-divider
             = link_to sign_out_path, method: :delete, class: 'navbar-item' do
               span.icon
                 i.fas.fa-sign-out-alt
               | Sign Out
-
-      - else
-        = link_to sign_in_path, class: 'navbar-item' do
-          span.icon
-            i.fas.fa-sign-in-alt
-          | Sign In

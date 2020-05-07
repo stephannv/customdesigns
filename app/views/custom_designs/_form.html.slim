@@ -1,6 +1,6 @@
 = form_for custom_design do |f|
   .field
-    = f.label :name, class: 'label'
+    = f.label :name, 'Design Name', class: 'label'
     .control
       = f.text_field :name, class: 'input'
       = errors_for(custom_design, :name)
@@ -11,13 +11,23 @@
       = f.text_field :design_id, class: 'input'
       = errors_for(custom_design, :design_id)
 
+  .field
+    = f.label :creator_name,  'Creator', class: 'label'
+    .control
+      = f.text_field :creator_name, class: 'input'
+      = errors_for(custom_design, :creator_name)
+
+  .field
+    = f.label :creator_id,  'Creator ID', class: 'label'
+    .control
+      = f.text_field :creator_id, class: 'input'
+      = errors_for(custom_design, :creator_id)
+
   = f.fields_for :main_picture do |main_picture_form|
     .field
       .control
         .label
           | Custom Design Screenshot
-          span.has-text-weight-light
-            =<  link_to '(example)', asset_pack_path('media/images/custom-design-example.jpg'), target: '_blank'
         #main-picture-div.file.has-name.is-fullwidth
           label.file-label
             = main_picture_form.hidden_field :image, value: custom_design.main_picture.try(:cached_image_data)
@@ -71,7 +81,7 @@
 
   .field
     .control
-      = f.submit class: 'button is-dark is-fullwidth'
+      = f.submit class: 'button is-dark has-text-weight-bold has-text-white is-fullwidth'
 
   .field
     .control
