@@ -20,7 +20,7 @@ gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 gem 'sass-rails', '>= 6'
 gem 'sentry-raven', '3.0.0'
-gem 'shrine', '3.2.1'
+gem 'shrine', '3.3.0'
 gem 'slim-rails', '3.2.0'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
