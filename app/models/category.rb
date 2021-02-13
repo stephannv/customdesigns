@@ -12,7 +12,7 @@ class Category < ApplicationRecord
   validates :name, uniqueness: { case_sensitive: false }
   validates :slug, uniqueness: { case_sensitive: false }
 
-  validates :name, length: { maximum: 20 }
+  validates :name, length: { maximum: 35 }
 
   after_save :generate_custom_designs_full_text_index
 

@@ -47,8 +47,8 @@ class CustomDesign < ApplicationRecord
       SELECT
         setweight(to_tsvector('simple', unaccent(#{connection.quote(name)})), 'A') ||
         setweight(to_tsvector('simple', unaccent(#{connection.quote(design_id)})), 'A') ||
-        setweight(to_tsvector('simple', unaccent(#{connection.quote(creator.name)})), 'B') ||
-        setweight(to_tsvector('simple', unaccent(#{connection.quote(creator.creator_id)})), 'B') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(creator.name.to_s)})), 'B') ||
+        setweight(to_tsvector('simple', unaccent(#{connection.quote(creator.creator_id.to_s)})), 'B') ||
         setweight(to_tsvector('simple', unaccent(#{connection.quote(categories.map(&:name).join(' '))})), 'B') ||
         setweight(to_tsvector('simple', unaccent(#{connection.quote(tags.map(&:name).join(' '))})), 'B') AS full_text_index
     SQL

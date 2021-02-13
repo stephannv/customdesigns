@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 gem 'awesome_print', '1.8.0'
-gem "aws-sdk-s3", '1.63.0'
+# gem "aws-sdk-s3", '1.63.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'clearance', '2.1.0'
 gem 'fastimage', '2.1.7'
@@ -16,10 +16,10 @@ gem 'meta-tags', '2.13.0'
 gem 'pagy', '3.8.0'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'pg_search', '2.3.2'
-gem 'puma', '~> 4.1'
+gem 'puma', '5.2.1'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 gem 'sass-rails', '>= 6'
-gem 'sentry-raven', '3.0.0'
+# gem 'sentry-raven', '3.0.0'
 gem 'shrine', '3.2.1'
 gem 'slim-rails', '3.2.0'
 gem 'turbolinks', '~> 5'

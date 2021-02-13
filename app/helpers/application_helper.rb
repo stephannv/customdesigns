@@ -83,23 +83,23 @@ module ApplicationHelper
   end
 
   def include_recaptcha_js
-    return unless Rails.env.production?
+    # return unless Rails.env.production?
 
-    tag.script src: "https://www.google.com/recaptcha/api.js?render=#{Rails.application.credentials.recaptcha[:site_key]}"
+    # tag.script src: "https://www.google.com/recaptcha/api.js?render=#{Rails.application.credentials.recaptcha[:site_key]}"
   end
 
   def include_analytics_js
-    return unless Rails.env.production?
+    # return unless Rails.env.production?
 
-    render 'layouts/analytics', analytics_id: Rails.application.credentials.analytics[:id]
+    # render 'layouts/analytics', analytics_id: Rails.application.credentials.analytics[:id]
   end
 
   def execute_recaptcha(action)
-    return unless Rails.env.production?
+    # return unless Rails.env.production?
 
-    recaptcha_id = "recaptcha_token_#{SecureRandom.hex(10)}"
-    site_key = Rails.application.credentials.recaptcha[:site_key]
+    # recaptcha_id = "recaptcha_token_#{SecureRandom.hex(10)}"
+    # site_key = Rails.application.credentials.recaptcha[:site_key]
 
-    render 'layouts/recaptcha', recaptcha_id: recaptcha_id, site_key: site_key, action: action
+    # render 'layouts/recaptcha', recaptcha_id: recaptcha_id, site_key: site_key, action: action
   end
 end

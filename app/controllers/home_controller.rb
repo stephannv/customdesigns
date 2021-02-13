@@ -9,7 +9,10 @@ class HomeController < ApplicationController
       .where('hearts.created_at >= now()::date')
       .limit(12)
 
-    @most_loved_custom_designs = CustomDesign.order(hearts_count: :desc).limit(12)
+    @most_loved_custom_designs = CustomDesign
+      .order(hearts_count: :desc)
+      .where.not(hearts_count: 0)
+      .limit(12)
 
     @most_loved_creators = Creator
       .select('creators.*, sum(custom_designs.hearts_count) as hearts_count')
